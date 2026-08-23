@@ -1,0 +1,6 @@
+{
+  "name": "GN - Grupo as Nações",
+  "description": "Sistema de busca rápida e descoberta de grupos de conexão (GN) da Igreja às Nações, ordenados por distância, categoria e país.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
