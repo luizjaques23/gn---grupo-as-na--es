@@ -5,7 +5,6 @@ import {
   Users, 
   Clock, 
   MapPin, 
-  Instagram, 
   ChevronDown, 
   ChevronUp, 
   MapIcon,
@@ -179,26 +178,6 @@ export default function GroupCard({ group, distance, isOpen, onToggle }: GroupCa
                     <span className="text-xs font-semibold text-[#1A1A1A] capitalize">
                       {group.category.toLowerCase()}
                     </span>
-                  </div>
-                </div>
-
-                {/* Instagram */}
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-black/[0.02] flex items-center justify-center text-black/40 flex-shrink-0">
-                    <Instagram className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <span className="block text-[9px] text-black/40 font-bold uppercase tracking-widest">
-                      Instagram
-                    </span>
-                    <a 
-                      href={`https://instagram.com/${group.instagram.replace('@', '')}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs font-bold text-black hover:underline inline-flex items-center gap-1"
-                    >
-                      {group.instagram}
-                    </a>
                   </div>
                 </div>
               </div>

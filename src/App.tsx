@@ -215,7 +215,14 @@ export default function App() {
       </div>
 
       {/* Hero Header Section — Centered for Teen Audience */}
-      <header id="app-header" className="relative z-10 px-6 md:px-12 pt-10 pb-6 text-center border-b border-black/5 max-w-5xl mx-auto">
+      <header id="app-header" className="relative z-10 px-6 md:px-12 pt-8 pb-6 text-center border-b border-black/5 max-w-5xl mx-auto flex flex-col items-center">
+        <div className="bg-black/90 px-6 py-3 rounded-2xl border border-black/10 shadow-lg inline-flex items-center justify-center mb-4 transition-transform hover:scale-105">
+          <img 
+            src="/white_logo_ian.png" 
+            alt="Igreja às Nações Logo" 
+            className="h-12 md:h-16 w-auto object-contain" 
+          />
+        </div>
         <p className="text-[9px] tracking-[0.35em] font-bold text-black/40 uppercase">Igreja às Nações</p>
         <p className="text-[9px] tracking-[0.35em] font-bold text-black/40 uppercase mt-1">Supervisão Resgate</p>
         <p className="text-[9px] tracking-[0.35em] font-bold text-black/40 uppercase mt-1">Continente das Américas</p>
@@ -723,9 +730,9 @@ export default function App() {
 
         {/* Son Action Section */}
         <section className="mt-16 mb-12 max-w-3xl mx-auto text-center space-y-6">
-          <div className="bg-gradient-to-br from-purple-600 via-blue-600 to-emerald-500 p-[2px] rounded-2xl shadow-lg overflow-hidden">
+          <div className="bg-gradient-to-br from-orange-500 via-amber-500 to-orange-400 p-[2px] rounded-2xl shadow-lg overflow-hidden">
             <div className="bg-white rounded-[14px] p-6 md:p-8 space-y-5">
-              <h3 className="text-lg md:text-xl font-extrabold uppercase tracking-wider bg-gradient-to-r from-purple-600 via-blue-500 to-emerald-500 bg-clip-text text-transparent">
+              <h3 className="text-lg md:text-xl font-extrabold uppercase tracking-wider bg-gradient-to-r from-orange-500 via-amber-500 to-orange-400 bg-clip-text text-transparent">
                 Participe também da Son Action!
               </h3>
               <p className="text-xs md:text-sm text-black/60 leading-relaxed">
@@ -779,43 +786,52 @@ export default function App() {
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
           
           {/* Logo & Slogan */}
-          <div className="space-y-2 text-center md:text-left">
-            <span className="text-black font-semibold tracking-tight text-sm block">
-              IGREJA ÀS NAÇÕES
-            </span>
-            <p className="text-[11px] text-black/40">
-              Supervisão Resgate · Continente das Américas · Adolescentes
-            </p>
+          <div className="flex flex-col sm:flex-row items-center gap-4 text-center md:text-left">
+            <div className="bg-black/90 p-3 rounded-xl border border-black/10 shadow-sm flex items-center justify-center">
+              <img 
+                src="/white_logo_ian.png" 
+                alt="Igreja às Nações Logo" 
+                className="h-9 w-auto object-contain" 
+              />
+            </div>
+            <div className="space-y-1">
+              <span className="text-black font-extrabold tracking-tight text-sm block">
+                IGREJA ÀS NAÇÕES
+              </span>
+              <p className="text-[11px] text-black/50 font-medium">
+                Supervisão Resgate · Continente das Américas · Adolescentes
+              </p>
+            </div>
           </div>
 
-          {/* Social Links & Integration points */}
-          <div className="flex flex-wrap gap-4 justify-center">
+          {/* Official Church Links */}
+          <div className="flex flex-wrap gap-3 justify-center">
             <a
-              href="https://instagram.com"
+              href="https://asnacoes.com.br/"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-black/[0.02] hover:bg-black/[0.06] text-[10px] font-bold text-black/60 hover:text-black transition-colors uppercase tracking-wider border border-black/5"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-black/[0.03] hover:bg-black/[0.08] text-[11px] font-bold text-black/70 hover:text-black transition-all uppercase tracking-wider border border-black/10 active:scale-95"
             >
-              <Instagram className="w-3.5 h-3.5" />
-              Instagram Geral
+              <ExternalLink className="w-3.5 h-3.5 text-black/50" />
+              Site Oficial
             </a>
             <a
-              href="https://igrejaasnacoes.com.br"
+              href="https://www.instagram.com/igrejaasnacoes?igsi=YXppbmp4cWd6bWFu"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-black/[0.02] hover:bg-black/[0.06] text-[10px] font-bold text-black/60 hover:text-black transition-colors uppercase tracking-wider border border-black/5"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-gradient-to-r from-purple-50 via-pink-50 to-orange-50 hover:brightness-95 text-[11px] font-bold text-pink-700 transition-all uppercase tracking-wider border border-pink-200/60 shadow-2xs active:scale-95"
             >
-              <ExternalLink className="w-3.5 h-3.5" />
-              Website Oficial
+              <Instagram className="w-3.5 h-3.5 text-pink-600" />
+              Instagram Oficial
             </a>
             <a
-              href="https://wa.me"
+              href="https://www.instagram.com/sonaction_/?igsi=NzZqejh0NXIxbnlp"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-black/[0.02] hover:bg-black/[0.06] text-[10px] font-bold text-black/60 hover:text-black transition-colors uppercase tracking-wider border border-black/5"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-purple-50 hover:bg-purple-100 text-[11px] font-bold text-purple-700 transition-all uppercase tracking-wider border border-purple-200/60 shadow-2xs active:scale-95"
             >
-              <MessageCircle className="w-3.5 h-3.5" />
-              Falar Conosco
+              <Instagram className="w-3.5 h-3.5 text-purple-600" />
+              Son Action
             </a>
           </div>
 
