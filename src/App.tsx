@@ -265,14 +265,6 @@ export default function App() {
               </p>
             </div>
           </div>
-
-          {/* Privacy & Security Badge */}
-          <div className="bg-blue-50/60 border border-blue-100/80 rounded-xl p-3.5 px-4 flex items-center gap-3 text-left">
-            <span className="text-base flex-shrink-0">🛡️</span>
-            <p className="text-[11px] text-blue-900/80 leading-relaxed">
-              <strong className="font-semibold text-blue-950">Aviso de Segurança & Privacidade:</strong> Por proteção e segurança dos nossos participantes, o sistema exibe apenas a referência geográfica aproximada por bairro e zona da cidade, sem divulgar endereços residenciais exatos.
-            </p>
-          </div>
         </section>
 
 
@@ -689,7 +681,7 @@ export default function App() {
           </section>
         )}
 
-        {/* NOSSOS GNs Flag Carousel Section */}
+        {/* NOSSOS GNs Flag Carousel Section (Auto Infinite Marquee) */}
         <section id="our-nations" className="mt-16 space-y-6">
           <div className="text-center space-y-1">
             <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-black/40">
@@ -699,56 +691,58 @@ export default function App() {
               Nossos GNs
             </h2>
             <p className="text-xs text-black/50 max-w-md mx-auto">
-              Toque em uma bandeira para ver os detalhes e horários dos grupos daquela nação
+              Bandeiras passando automaticamente — toque em qualquer país para explorar os grupos
             </p>
             <div className="h-0.5 w-10 bg-gradient-to-r from-purple-500 via-blue-500 to-emerald-500 mx-auto mt-2 rounded-full" />
           </div>
 
-          {/* Interactive Responsive Flags Carousel / Grid */}
-          <div className="flex overflow-x-auto pb-4 pt-2 gap-3.5 no-scrollbar sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 max-w-5xl mx-auto px-1 snap-x">
-            {countriesList.map((country) => {
-              const countryGroups = GN_GROUPS.filter((g) => g.country === country.name);
-              const countryGroupsCount = countryGroups.length;
-              const firstGroup = countryGroups[0];
+          {/* Continuous Automatic Animated Carousel with Infinite Loop */}
+          <div className="relative overflow-hidden w-full py-4 mask-gradient">
+            <div className="animate-marquee-infinite gap-4 px-2">
+              {[...countriesList, ...countriesList, ...countriesList, ...countriesList].map((country, idx) => {
+                const countryGroups = GN_GROUPS.filter((g) => g.country === country.name);
+                const countryGroupsCount = countryGroups.length;
+                const firstGroup = countryGroups[0];
 
-              const handleCountryClick = () => {
-                setViewMode('catalog');
-                setCatalogCountry(country.name);
-                setCatalogCategory('ALL');
-                setSearchQuery('');
-                
-                setTimeout(() => {
-                  document.getElementById('catalog-section')?.scrollIntoView({ behavior: 'smooth' });
-                }, 100);
-              };
+                const handleCountryClick = () => {
+                  setViewMode('catalog');
+                  setCatalogCountry(country.name);
+                  setCatalogCategory('ALL');
+                  setSearchQuery('');
+                  
+                  setTimeout(() => {
+                    document.getElementById('catalog-section')?.scrollIntoView({ behavior: 'smooth' });
+                  }, 100);
+                };
 
-              return (
-                <button
-                  key={country.name}
-                  type="button"
-                  onClick={handleCountryClick}
-                  style={{
-                    borderTopColor: firstGroup?.theme?.primary || '#3b82f6'
-                  }}
-                  className="min-w-[190px] sm:min-w-0 flex-shrink-0 bg-white rounded-2xl p-4 border border-black/[0.06] border-t-4 flex flex-col items-center text-center gap-2.5 transition-all hover:border-black/20 hover:shadow-md hover:-translate-y-1 active:scale-95 group snap-center cursor-pointer relative overflow-hidden"
-                >
-                  <div className="w-14 h-14 rounded-2xl bg-black/[0.02] flex items-center justify-center text-3xl group-hover:scale-110 transition-transform shadow-2xs">
-                    <span aria-hidden="true">{country.flag}</span>
-                  </div>
-                  <div>
-                    <span className="block font-bold text-xs text-black tracking-tight uppercase group-hover:text-blue-600 transition-colors">
-                      GN {country.name}
+                return (
+                  <button
+                    key={`${country.name}-${idx}`}
+                    type="button"
+                    onClick={handleCountryClick}
+                    style={{
+                      borderTopColor: firstGroup?.theme?.primary || '#3b82f6'
+                    }}
+                    className="w-[200px] flex-shrink-0 bg-white rounded-2xl p-4 border border-black/[0.06] border-t-4 flex flex-col items-center text-center gap-2.5 transition-all hover:border-black/20 hover:shadow-lg hover:-translate-y-1 active:scale-95 group cursor-pointer relative overflow-hidden select-none"
+                  >
+                    <div className="w-14 h-14 rounded-2xl bg-black/[0.02] flex items-center justify-center text-3xl group-hover:scale-110 transition-transform shadow-2xs">
+                      <span aria-hidden="true">{country.flag}</span>
+                    </div>
+                    <div>
+                      <span className="block font-bold text-xs text-black tracking-tight uppercase group-hover:text-blue-600 transition-colors">
+                        GN {country.name}
+                      </span>
+                      <span className="block text-[10px] text-black/40 font-semibold mt-0.5">
+                        {countryGroupsCount} {countryGroupsCount === 1 ? 'Grupo ativo' : 'Grupos ativos'}
+                      </span>
+                    </div>
+                    <span className="text-[9px] font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full uppercase tracking-wider mt-1 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                      Ver Grupos →
                     </span>
-                    <span className="block text-[10px] text-black/40 font-semibold mt-0.5">
-                      {countryGroupsCount} {countryGroupsCount === 1 ? 'Grupo ativo' : 'Grupos ativos'}
-                    </span>
-                  </div>
-                  <span className="text-[9px] font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full uppercase tracking-wider mt-1 group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                    Ver Grupos →
-                  </span>
-                </button>
-              );
-            })}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </section>
 
@@ -803,10 +797,42 @@ export default function App() {
             </div>
           </div>
         </section>
+
+        {/* Localização da Igreja Sede */}
+        <section className="mt-8 mb-6 max-w-4xl mx-auto">
+          <div className="bg-white rounded-2xl p-6 md:p-8 border border-black/[0.06] shadow-xs flex flex-col md:flex-row items-center justify-between gap-6 text-left">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-600 to-blue-600 text-white flex items-center justify-center flex-shrink-0 shadow-sm">
+                <MapPin className="w-6 h-6" />
+              </div>
+              <div className="space-y-1">
+                <span className="text-[10px] font-bold tracking-[0.25em] text-black/40 uppercase">
+                  Nossa Sede
+                </span>
+                <h3 className="text-lg font-bold text-black tracking-tight">
+                  Igreja às Nações
+                </h3>
+                <p className="text-xs text-black/60 leading-relaxed font-medium">
+                  R. Raimundo Cantuária, 2290 - Mato Grosso, Porto Velho - RO, 76804-416
+                </p>
+              </div>
+            </div>
+
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=Igreja+%C3%A0s+Na%C3%A7%C3%B5es+R.+Raimundo+Cantu%C3%A1ria+2290+Mato+Grosso+Porto+Velho+RO"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full md:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-black hover:bg-zinc-800 text-white font-bold text-[11px] tracking-widest uppercase shadow-md active:scale-95 transition-all flex-shrink-0 cursor-pointer"
+            >
+              <MapPin className="w-4 h-4 text-red-400" />
+              Abrir Sede no Google Maps
+            </a>
+          </div>
+        </section>
       </main>
 
       {/* Elegant Footer */}
-      <footer className="bg-white text-zinc-500 py-12 px-6 md:px-12 border-t border-black/5 relative z-10 mt-24">
+      <footer className="bg-white text-zinc-500 py-12 px-6 md:px-12 border-t border-black/5 relative z-10 mt-16">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
           
           {/* Logo & Slogan */}
@@ -863,7 +889,7 @@ export default function App() {
 
         <div className="max-w-5xl mx-auto mt-8 pt-8 border-t border-black/5 text-center space-y-2">
           <p className="text-xs text-black/60 font-semibold tracking-wider uppercase">
-            © 2026 GN — Grupo às Nações. Todos os direitos reservados.
+            2026 — . Todos os direitos reservados
           </p>
           <div className="flex items-center justify-center gap-1.5 text-xs text-black/50 font-medium">
             <span>Criado por Luiz Henrique Jaques</span>

@@ -33,3 +33,25 @@ html, body {
     background-position: 0% 50%;
   }
 }
+
+/* Smooth continuous marquee animation for Nossos GNs flags carousel */
+@keyframes marquee_infinite {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-marquee-infinite {
+  display: flex;
+  width: max-content;
+  animation: marquee_infinite 25s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-infinite:hover,
+.animate-marquee-infinite:active {
+  animation-play-state: paused;
+}

@@ -33,12 +33,20 @@ export interface BibleVerse {
 
 export const BIBLE_VERSES: BibleVerse[] = [
   {
-    text: "Ide por todo o mundo e pregai o evangelho a toda criatura.",
-    reference: "Marcos 16:15"
+    text: "Há mais de 20 anos promovendo o Evangelho de Jesus Cristo e fazendo discípulos de todas as nações.",
+    reference: "Igreja às Nações"
+  },
+  {
+    text: "Portanto, ide e fazei discípulos de todas as nações, batizando-os em nome do Pai, e do Filho e do Espírito Santo;",
+    reference: "Mateus 28:19"
   },
   {
     text: "Uma família. Muitas nações. Um só propósito.",
     reference: "Igreja às Nações"
+  },
+  {
+    text: "Ide por todo o mundo e pregai o evangelho a toda criatura.",
+    reference: "Marcos 16:15"
   },
   {
     text: "Pede-me, e te darei as nações por herança e os confins da terra por tua posse.",
@@ -47,10 +55,6 @@ export const BIBLE_VERSES: BibleVerse[] = [
   {
     text: "E este evangelho do Reino será pregado em todo o mundo habitado, como testemunho a todas as nações.",
     reference: "Mateus 24:14"
-  },
-  {
-    text: "Portanto, ide, fazei discípulos de todas as nações, batizando-os em nome do Pai, e do Filho, e do Espírito Santo.",
-    reference: "Mateus 28:19"
   },
   {
     text: "Porque a terra se encherá do conhecimento da glória do Senhor, como as águas cobrem o mar.",
