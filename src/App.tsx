@@ -28,12 +28,12 @@ import { BgradientAnim } from '@/components/ui/soft-gradient-background-animatio
 export default function App() {
   // Wizard States
   const [step, setStep] = useState<1 | 2 | 3>(1);
-  const [selectedCategory, setSelectedCategory] = useState<'MENINAS' | 'MENINOS' | 'MISTO' | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<'MENINAS' | 'MENINOS' | 'MISTO' | 'KIDS' | null>(null);
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
 
   // Search & Filters State
   const [searchQuery, setSearchQuery] = useState('');
-  const [catalogCategory, setCatalogCategory] = useState<'ALL' | 'MENINAS' | 'MENINOS' | 'MISTO'>('ALL');
+  const [catalogCategory, setCatalogCategory] = useState<'ALL' | 'MENINAS' | 'MENINOS' | 'MISTO' | 'KIDS'>('ALL');
   const [catalogCountry, setCatalogCountry] = useState<string>('ALL');
 
   // Geolocation States
@@ -189,7 +189,7 @@ export default function App() {
     setStep(1);
   };
 
-  const selectWizardCategory = (cat: 'MENINAS' | 'MENINOS' | 'MISTO') => {
+  const selectWizardCategory = (cat: 'MENINAS' | 'MENINOS' | 'MISTO' | 'KIDS') => {
     setSelectedCategory(cat);
     setStep(2);
   };
@@ -228,7 +228,7 @@ export default function App() {
         <p className="text-[9px] tracking-[0.35em] font-bold text-black/40 uppercase mt-1">Supervisão Resgate</p>
         <p className="text-[9px] tracking-[0.35em] font-bold text-black/40 uppercase mt-1">Continente das Américas</p>
         <h1 className="text-2xl md:text-3xl font-bold tracking-tight mt-3 bg-gradient-to-r from-purple-600 via-blue-500 to-emerald-500 bg-clip-text text-transparent">
-          Adolescentes — GN
+          Grupo às Nações-GN
         </h1>
       </header>
 
@@ -423,16 +423,16 @@ export default function App() {
                     </button>
 
                     {/* KIDS */}
-                    <div
-                      className="relative py-7 px-3 border border-amber-500/25 bg-amber-500/5 text-amber-600 rounded-2xl flex flex-col items-center justify-center gap-2.5 opacity-90 select-none"
+                    <button
+                      type="button"
+                      id="wizard-cat-kids"
+                      onClick={() => selectWizardCategory('KIDS')}
+                      className="group relative py-7 px-3 border border-amber-500/20 bg-amber-500/3 text-amber-600 rounded-2xl hover:bg-amber-500/8 transition-all flex flex-col items-center justify-center gap-2.5 active:scale-95 cursor-pointer shadow-2xs"
                     >
-                      <span className="absolute top-2.5 right-2.5 text-[8px] font-extrabold uppercase tracking-widest bg-amber-500 text-white px-2 py-0.5 rounded-full shadow-2xs">
-                        Em breve
-                      </span>
                       <span className="w-2.5 h-2.5 rounded-full bg-amber-500" />
                       <span className="text-xs font-bold tracking-[0.2em] uppercase">KIDS</span>
                       <span className="text-[10px] text-black/45 font-medium">Crianças</span>
-                    </div>
+                    </button>
 
                     {/* JOVEM - EM BREVE */}
                     <div
