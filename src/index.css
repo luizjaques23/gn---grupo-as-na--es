@@ -1,1 +1,35 @@
 @import "tailwindcss";
+
+html, body {
+  background-color: #F8F9FA;
+  color: #1A1A1A;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Fast & GPU-accelerated soft background gradient animation for all mobile browsers */
+.oklch-gradient-bg {
+  background: linear-gradient(
+    135deg,
+    rgba(147, 51, 234, 0.08) 0%,
+    rgba(59, 130, 246, 0.08) 35%,
+    rgba(16, 185, 129, 0.08) 70%,
+    rgba(236, 72, 153, 0.08) 100%
+  );
+  background-size: 200% 200%;
+  animation: anim_bg_fast 10s ease infinite;
+  will-change: background-position;
+}
+
+@keyframes anim_bg_fast {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

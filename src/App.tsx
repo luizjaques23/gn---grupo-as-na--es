@@ -216,11 +216,11 @@ export default function App() {
 
       {/* Hero Header Section — Centered for Teen Audience */}
       <header id="app-header" className="relative z-10 px-6 md:px-12 pt-8 pb-6 text-center border-b border-black/5 max-w-5xl mx-auto flex flex-col items-center">
-        <div className="bg-black/90 px-6 py-3 rounded-2xl border border-black/10 shadow-lg inline-flex items-center justify-center mb-4 transition-transform hover:scale-105">
+        <div className="bg-gradient-to-r from-purple-600 via-blue-600 to-emerald-500 px-7 py-3.5 rounded-2xl border border-white/20 shadow-md inline-flex items-center justify-center mb-4 transition-transform hover:scale-105">
           <img 
             src="/white_logo_ian.png" 
             alt="Igreja às Nações Logo" 
-            className="h-12 md:h-16 w-auto object-contain" 
+            className="h-12 md:h-16 w-auto object-contain drop-shadow-xs" 
           />
         </div>
         <p className="text-[9px] tracking-[0.35em] font-bold text-black/40 uppercase">Igreja às Nações</p>
@@ -787,11 +787,11 @@ export default function App() {
           
           {/* Logo & Slogan */}
           <div className="flex flex-col sm:flex-row items-center gap-4 text-center md:text-left">
-            <div className="bg-black/90 p-3 rounded-xl border border-black/10 shadow-sm flex items-center justify-center">
+            <div className="bg-gradient-to-r from-purple-600 via-blue-600 to-emerald-500 p-3 px-4 rounded-xl border border-white/20 shadow-xs flex items-center justify-center">
               <img 
                 src="/white_logo_ian.png" 
                 alt="Igreja às Nações Logo" 
-                className="h-9 w-auto object-contain" 
+                className="h-9 w-auto object-contain drop-shadow-xs" 
               />
             </div>
             <div className="space-y-1">
