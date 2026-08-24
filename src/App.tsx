@@ -798,37 +798,6 @@ export default function App() {
           </div>
         </section>
 
-        {/* Localização da Igreja Sede */}
-        <section className="mt-8 mb-6 max-w-4xl mx-auto">
-          <div className="bg-white rounded-2xl p-6 md:p-8 border border-black/[0.06] shadow-xs flex flex-col md:flex-row items-center justify-between gap-6 text-left">
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-600 to-blue-600 text-white flex items-center justify-center flex-shrink-0 shadow-sm">
-                <MapPin className="w-6 h-6" />
-              </div>
-              <div className="space-y-1">
-                <span className="text-[10px] font-bold tracking-[0.25em] text-black/40 uppercase">
-                  Nossa Sede
-                </span>
-                <h3 className="text-lg font-bold text-black tracking-tight">
-                  Igreja às Nações
-                </h3>
-                <p className="text-xs text-black/60 leading-relaxed font-medium">
-                  R. Raimundo Cantuária, 2290 - Mato Grosso, Porto Velho - RO, 76804-416
-                </p>
-              </div>
-            </div>
-
-            <a
-              href="https://www.google.com/maps/search/?api=1&query=Igreja+%C3%A0s+Na%C3%A7%C3%B5es+R.+Raimundo+Cantu%C3%A1ria+2290+Mato+Grosso+Porto+Velho+RO"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full md:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-black hover:bg-zinc-800 text-white font-bold text-[11px] tracking-widest uppercase shadow-md active:scale-95 transition-all flex-shrink-0 cursor-pointer"
-            >
-              <MapPin className="w-4 h-4 text-red-400" />
-              Abrir Sede no Google Maps
-            </a>
-          </div>
-        </section>
       </main>
 
       {/* Elegant Footer */}
@@ -837,7 +806,7 @@ export default function App() {
           
           {/* Logo & Slogan */}
           <div className="flex flex-col sm:flex-row items-center gap-4 text-center md:text-left">
-            <div className="bg-gradient-to-r from-purple-600 via-blue-600 to-emerald-500 p-3 px-4 rounded-xl border border-white/20 shadow-xs flex items-center justify-center">
+            <div className="bg-gradient-to-r from-purple-600 via-blue-600 to-emerald-500 p-3 px-4 rounded-xl border border-white/20 shadow-xs flex items-center justify-center flex-shrink-0">
               <img 
                 src="/white_logo_ian.png" 
                 alt="Igreja às Nações Logo" 
@@ -851,6 +820,16 @@ export default function App() {
               <p className="text-[11px] text-black/50 font-medium">
                 Supervisão Resgate · Continente das Américas · Adolescentes
               </p>
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=Igreja+%C3%A0s+Na%C3%A7%C3%B5es+R.+Raimundo+Cantu%C3%A1ria+2290+Mato+Grosso+Porto+Velho+RO"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[11px] text-black/60 hover:text-black hover:underline inline-flex items-center gap-1 font-medium transition-colors"
+                title="Abrir no Google Maps"
+              >
+                <MapPin className="w-3 h-3 text-red-500 flex-shrink-0" />
+                R. Raimundo Cantuária, 2290 - Mato Grosso, Porto Velho - RO, 76804-416
+              </a>
             </div>
           </div>
 
