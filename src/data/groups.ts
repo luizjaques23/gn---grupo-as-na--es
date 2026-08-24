@@ -135,15 +135,15 @@ export const GN_GROUPS: GNGroup[] = [
     countryCode: "UY",
     flag: "🇺🇾",
     name: "GN Uruguai",
-    leader: "Gabriel Johnson",
+    leader: "Marcos Cezar",
     category: "MENINOS",
-    time: "Quinta-feira — 19h30",
+    time: "Quarta-feira — 19h30",
     city: "Porto Velho - RO",
-    neighborhood: "Tucumanzal",
-    zone: "Zona Sul",
+    neighborhood: "Centro",
+    zone: "Centro",
     contact: "69 9302-0795",
     contactRaw: "5569993020795",
-    coordinates: { latitude: -8.77530, longitude: -63.90120 },
+    coordinates: { latitude: -8.76080, longitude: -63.90390 },
     theme: {
       primary: "#0038A8", // Azul do Uruguai
       secondary: "#FFFFFF", // Branco
