@@ -273,7 +273,7 @@ export default function App() {
           <div className="space-y-2">
             <p className="text-[10px] tracking-[0.25em] font-bold text-black/40 uppercase">Encontre um GN perto de você</p>
             <h3 className="text-3xl font-light tracking-tight text-[#1A1A1A]">
-              Uma família. Muitas nações. Um só propósito.
+              Uma família para pertencer.
             </h3>
             <p className="text-xs text-black/50 max-w-md mx-auto leading-relaxed">
               Ative a sua localização para descobrir instantaneamente quais grupos de conexão estão mais próximos de você.

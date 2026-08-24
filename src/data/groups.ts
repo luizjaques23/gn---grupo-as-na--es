@@ -41,7 +41,7 @@ export const BIBLE_VERSES: BibleVerse[] = [
     reference: "Mateus 28:19"
   },
   {
-    text: "Uma família. Muitas nações. Um só propósito.",
+    text: "Uma família para pertencer.",
     reference: "Igreja às Nações"
   },
   {
