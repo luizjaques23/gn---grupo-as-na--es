@@ -129,15 +129,16 @@ export default function App() {
   const filteredCatalogGroups = useMemo(() => {
     let result = [...groupsWithDistance];
 
-    // Filter by search query (name, leader, city, address)
+    // Filter by search query (name, leader, neighborhood, zone, city)
     if (searchQuery.trim() !== '') {
       const q = searchQuery.toLowerCase();
       result = result.filter(
         (g) =>
           g.name.toLowerCase().includes(q) ||
           g.leader.toLowerCase().includes(q) ||
-          g.city.toLowerCase().includes(q) ||
-          g.address.toLowerCase().includes(q)
+          g.neighborhood.toLowerCase().includes(q) ||
+          g.zone.toLowerCase().includes(q) ||
+          g.city.toLowerCase().includes(q)
       );
     }
 
@@ -242,24 +243,34 @@ export default function App() {
       <main className="max-w-5xl mx-auto px-6 md:px-12 py-10 relative z-10">
 
         {/* Explicação e Importância sobre GN */}
-        <section className="mb-12 grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto text-left">
-          <div className="bg-white p-6 rounded-2xl border border-black/[0.05] shadow-xs space-y-3">
-            <h3 className="text-sm font-bold text-black uppercase tracking-widest flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              O que é um GN?
-            </h3>
-            <p className="text-xs md:text-sm text-black/60 leading-relaxed font-normal">
-              GN são pequenos grupos que se encontram geralmente uma vez por semana, nas casas ou locais pré determinados para compartilhar a palavra, fortalecer a comunhão e permitir que as pessoas se conheçam. Além disso, há momentos de louvores, orações e dinâmicas que possibilitam que esse encontro seja um momento de descontração e amizade.
-            </p>
+        <section className="mb-12 max-w-4xl mx-auto space-y-4 text-left">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-white p-6 rounded-2xl border border-black/[0.05] shadow-xs space-y-3">
+              <h3 className="text-sm font-bold text-black uppercase tracking-widest flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                O que é um GN?
+              </h3>
+              <p className="text-xs md:text-sm text-black/70 leading-relaxed font-normal">
+                <strong className="text-black font-semibold">GN significa “Grupo às Nações”</strong>. São grupos de adolescentes e jovens que se reúnem semanalmente nos bairros e regiões de Porto Velho para compartilhar a Palavra de Deus, fortalecer a comunhão, orar, louvar e construir amizades verdadeiras em um ambiente alegre e acolhedor.
+              </p>
+            </div>
+
+            <div className="bg-white p-6 rounded-2xl border border-black/[0.05] shadow-xs space-y-3">
+              <h3 className="text-sm font-bold text-black uppercase tracking-widest flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                Qual a importância do GN?
+              </h3>
+              <p className="text-xs md:text-sm text-black/70 leading-relaxed font-normal">
+                Os GNs possuem um papel estratégico no crescimento espiritual e na integração dos participantes na igreja. Eles permitem um acompanhamento próximo, cuidado pastoral, fortalecimento da fé e evangelismo com propósito.
+              </p>
+            </div>
           </div>
 
-          <div className="bg-white p-6 rounded-2xl border border-black/[0.05] shadow-xs space-y-3">
-            <h3 className="text-sm font-bold text-black uppercase tracking-widest flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-              Qual a importância do GN?
-            </h3>
-            <p className="text-xs md:text-sm text-black/60 leading-relaxed font-normal">
-              OS GN possuem um papel fundamental na igreja que usam esse método de forma estratégica para seu crescimento, elas permitem que a comunhão com os membros seja muito maior, além de possibilitar o evangelismo de mais pessoas de forma informal, acompanhando seu desenvolvimento espiritual.
+          {/* Privacy & Security Badge */}
+          <div className="bg-blue-50/60 border border-blue-100/80 rounded-xl p-3.5 px-4 flex items-center gap-3 text-left">
+            <span className="text-base flex-shrink-0">🛡️</span>
+            <p className="text-[11px] text-blue-900/80 leading-relaxed">
+              <strong className="font-semibold text-blue-950">Aviso de Segurança & Privacidade:</strong> Por proteção e segurança dos nossos participantes, o sistema exibe apenas a referência geográfica aproximada por bairro e zona da cidade, sem divulgar endereços residenciais exatos.
             </p>
           </div>
         </section>
@@ -678,19 +689,27 @@ export default function App() {
           </section>
         )}
 
-        {/* NOSSAS NAÇÕES Flag List Section */}
+        {/* NOSSOS GNs Flag Carousel Section */}
         <section id="our-nations" className="mt-16 space-y-6">
-          <div className="text-center">
-            <h2 className="text-xs font-bold uppercase tracking-[0.25em] text-black/40">
-              Nossas GN
+          <div className="text-center space-y-1">
+            <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-black/40">
+              Nações Representadas
+            </p>
+            <h2 className="text-xl md:text-2xl font-light tracking-tight text-black">
+              Nossos GNs
             </h2>
-            <div className="h-px w-8 bg-black/10 mx-auto mt-2" />
+            <p className="text-xs text-black/50 max-w-md mx-auto">
+              Toque em uma bandeira para ver os detalhes e horários dos grupos daquela nação
+            </p>
+            <div className="h-0.5 w-10 bg-gradient-to-r from-purple-500 via-blue-500 to-emerald-500 mx-auto mt-2 rounded-full" />
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 max-w-4xl mx-auto">
+          {/* Interactive Responsive Flags Carousel / Grid */}
+          <div className="flex overflow-x-auto pb-4 pt-2 gap-3.5 no-scrollbar sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 max-w-5xl mx-auto px-1 snap-x">
             {countriesList.map((country) => {
-              // Get groups for this country
-              const countryGroupsCount = GN_GROUPS.filter((g) => g.country === country.name).length;
+              const countryGroups = GN_GROUPS.filter((g) => g.country === country.name);
+              const countryGroupsCount = countryGroups.length;
+              const firstGroup = countryGroups[0];
 
               const handleCountryClick = () => {
                 setViewMode('catalog');
@@ -698,7 +717,6 @@ export default function App() {
                 setCatalogCategory('ALL');
                 setSearchQuery('');
                 
-                // Scroll down to catalog
                 setTimeout(() => {
                   document.getElementById('catalog-section')?.scrollIntoView({ behavior: 'smooth' });
                 }, 100);
@@ -709,19 +727,25 @@ export default function App() {
                   key={country.name}
                   type="button"
                   onClick={handleCountryClick}
-                  className="bg-white rounded-2xl p-4 border border-black/[0.05] flex items-center gap-3 transition-all hover:border-black/15 text-left active:scale-98"
+                  style={{
+                    borderTopColor: firstGroup?.theme?.primary || '#3b82f6'
+                  }}
+                  className="min-w-[190px] sm:min-w-0 flex-shrink-0 bg-white rounded-2xl p-4 border border-black/[0.06] border-t-4 flex flex-col items-center text-center gap-2.5 transition-all hover:border-black/20 hover:shadow-md hover:-translate-y-1 active:scale-95 group snap-center cursor-pointer relative overflow-hidden"
                 >
-                  <span className="text-3xl" aria-hidden="true">
-                    {country.flag}
-                  </span>
+                  <div className="w-14 h-14 rounded-2xl bg-black/[0.02] flex items-center justify-center text-3xl group-hover:scale-110 transition-transform shadow-2xs">
+                    <span aria-hidden="true">{country.flag}</span>
+                  </div>
                   <div>
-                    <span className="block font-semibold text-xs text-black tracking-tight uppercase">
+                    <span className="block font-bold text-xs text-black tracking-tight uppercase group-hover:text-blue-600 transition-colors">
                       GN {country.name}
                     </span>
-                    <span className="block text-[9px] font-bold text-black/35 uppercase tracking-wider">
+                    <span className="block text-[10px] text-black/40 font-semibold mt-0.5">
                       {countryGroupsCount} {countryGroupsCount === 1 ? 'Grupo ativo' : 'Grupos ativos'}
                     </span>
                   </div>
+                  <span className="text-[9px] font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full uppercase tracking-wider mt-1 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                    Ver Grupos →
+                  </span>
                 </button>
               );
             })}
@@ -837,9 +861,22 @@ export default function App() {
 
         </div>
 
-        <div className="max-w-5xl mx-auto mt-8 pt-8 border-t border-black/5 text-center text-xs text-black/50 uppercase tracking-wider font-semibold">
-          <p>2026 GN — Todos os direitos reservados.</p>
-          <p className="mt-2 text-[10px] text-black/40 font-normal tracking-normal uppercase">Criado Luiz Henrique Jaques</p>
+        <div className="max-w-5xl mx-auto mt-8 pt-8 border-t border-black/5 text-center space-y-2">
+          <p className="text-xs text-black/60 font-semibold tracking-wider uppercase">
+            © 2026 GN — Grupo às Nações. Todos os direitos reservados.
+          </p>
+          <div className="flex items-center justify-center gap-1.5 text-xs text-black/50 font-medium">
+            <span>Criado por Luiz Henrique Jaques</span>
+            <a
+              href="https://instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center text-pink-600 hover:text-pink-700 transition-colors p-0.5"
+              title="Instagram do Criador"
+            >
+              <Instagram className="w-3.5 h-3.5" />
+            </a>
+          </div>
         </div>
       </footer>
     </div>

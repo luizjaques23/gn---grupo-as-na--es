@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   User, 
@@ -8,7 +8,9 @@ import {
   ChevronDown, 
   ChevronUp, 
   MapIcon,
-  Navigation
+  Navigation,
+  MessageCircle,
+  Phone
 } from 'lucide-react';
 import { GNGroup } from '../data/groups';
 import { formatDistance } from '../utils/geo';
@@ -58,9 +60,16 @@ export default function GroupCard({ group, distance, isOpen, onToggle }: GroupCa
 
   const handleOpenMap = (e: React.MouseEvent) => {
     e.stopPropagation();
-    const query = encodeURIComponent(group.address);
+    const query = encodeURIComponent(`Bairro ${group.neighborhood}, ${group.city}`);
     const mapUrl = `https://www.google.com/maps/search/?api=1&query=${query}`;
     window.open(mapUrl, '_blank', 'noopener,noreferrer');
+  };
+
+  const handleWhatsApp = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const message = encodeURIComponent(`Olá! Gostaria de informações sobre o GN ${group.country} (${group.category}).`);
+    const waUrl = `https://wa.me/${group.contactRaw}?text=${message}`;
+    window.open(waUrl, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -105,9 +114,9 @@ export default function GroupCard({ group, distance, isOpen, onToggle }: GroupCa
           <h3 className="text-lg font-light tracking-tight text-[#1A1A1A]">
             {group.name}
           </h3>
-          <p className="text-xs text-black/40 mt-1 flex items-center gap-1.5">
-            <MapPin className="w-3.5 h-3.5 text-black/30 flex-shrink-0" />
-            <span className="truncate">{group.city}</span>
+          <p className="text-xs text-black/50 mt-1 flex items-center gap-1.5 font-medium">
+            <MapPin className="w-3.5 h-3.5 text-black/40 flex-shrink-0" />
+            <span>Bairro {group.neighborhood} · {group.zone}</span>
           </p>
         </div>
 
@@ -158,7 +167,7 @@ export default function GroupCard({ group, distance, isOpen, onToggle }: GroupCa
                   </div>
                   <div>
                     <span className="block text-[9px] text-black/40 font-bold uppercase tracking-widest">
-                      Horário
+                      Dia & Horário
                     </span>
                     <span className="text-xs font-semibold text-[#1A1A1A]">
                       {group.time}
@@ -180,34 +189,65 @@ export default function GroupCard({ group, distance, isOpen, onToggle }: GroupCa
                     </span>
                   </div>
                 </div>
+
+                {/* WhatsApp Contact */}
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
+                    <MessageCircle className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="block text-[9px] text-emerald-700 font-bold uppercase tracking-widest">
+                      Contato / WhatsApp
+                    </span>
+                    <button
+                      type="button"
+                      onClick={handleWhatsApp}
+                      className="text-xs font-bold text-emerald-600 hover:text-emerald-700 hover:underline inline-flex items-center gap-1.5 transition-colors"
+                    >
+                      <span>{group.contact}</span>
+                      <span className="text-[9px] bg-emerald-100/80 text-emerald-800 px-1.5 py-0.5 rounded-sm uppercase tracking-wider">
+                        Abrir Chat
+                      </span>
+                    </button>
+                  </div>
+                </div>
               </div>
 
-              {/* Local / Endereço */}
+              {/* Local / Região (Seguro - Apenas Bairro e Zona) */}
               <div className="flex items-start gap-3 pt-2">
                 <div className="w-8 h-8 rounded-lg bg-black/[0.02] flex items-center justify-center text-black/40 flex-shrink-0">
                   <MapIcon className="w-4 h-4" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <span className="block text-[9px] text-black/40 font-bold uppercase tracking-widest">
-                    Localização / Endereço
+                    Região & Bairro (Referência Aproximada)
                   </span>
-                  <span className="text-xs text-[#1A1A1A]/80 block">
-                    {group.address}
+                  <span className="text-xs text-[#1A1A1A] font-medium block">
+                    Bairro {group.neighborhood} · {group.zone} — {group.city}
                   </span>
                 </div>
               </div>
 
-              {/* Action Button: Google Maps */}
-              <div className="pt-3">
+              {/* Action Buttons: WhatsApp & Maps */}
+              <div className="pt-3 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <button
+                  type="button"
+                  id={`whatsapp-btn-${group.id}`}
+                  onClick={handleWhatsApp}
+                  className="w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white py-3 px-4 rounded-xl font-bold text-[10px] tracking-widest uppercase transition-all shadow-sm active:scale-98"
+                >
+                  <MessageCircle className="w-3.5 h-3.5" />
+                  FALAR NO WHATSAPP
+                </button>
                 <button
                   type="button"
                   id={`open-map-btn-${group.id}`}
                   onClick={handleOpenMap}
                   style={{ backgroundColor: group.theme.primary }}
-                  className="w-full flex items-center justify-center gap-2 hover:brightness-110 text-white py-3 px-4 rounded-xl font-bold text-[10px] tracking-widest uppercase transition-all shadow-md active:scale-98"
+                  className="w-full flex items-center justify-center gap-2 hover:brightness-110 text-white py-3 px-4 rounded-xl font-bold text-[10px] tracking-widest uppercase transition-all shadow-sm active:scale-98"
                 >
                   <MapPin className="w-3.5 h-3.5" />
-                  ABRIR LOCALIZAÇÃO NO GOOGLE MAPS
+                  VER REGIÃO NO MAPA
                 </button>
               </div>
             </div>

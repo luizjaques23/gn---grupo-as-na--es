@@ -15,8 +15,10 @@ export interface GNGroup {
   category: 'MENINAS' | 'MENINOS' | 'MISTO';
   time: string;
   city: string;
-  address: string;
-  instagram: string;
+  neighborhood: string;
+  zone: string;
+  contact: string;
+  contactRaw: string;
   coordinates: {
     latitude: number;
     longitude: number;
@@ -67,8 +69,10 @@ export const GN_GROUPS: GNGroup[] = [
     category: "MENINOS",
     time: "Sábado — 19h30",
     city: "Porto Velho - RO",
-    address: "R. Alecrim, 5624 - Cohab, Porto Velho - RO, 76807-534",
-    instagram: "@gngrupoasnacoes.mx",
+    neighborhood: "COHAB",
+    zone: "Zona Sul",
+    contact: "69 92422-756",
+    contactRaw: "5569992422756",
     coordinates: { latitude: -8.78866, longitude: -63.87488 },
     theme: {
       primary: "#006847", // Verde do México
@@ -87,14 +91,82 @@ export const GN_GROUPS: GNGroup[] = [
     category: "MENINAS",
     time: "Sábado — 19h30",
     city: "Porto Velho - RO",
-    address: "R. Alecrim, 5624 - Cohab, Porto Velho - RO, 76807-534",
-    instagram: "@gngrupoasnacoes.gy",
+    neighborhood: "COHAB",
+    zone: "Zona Sul",
+    contact: "69 99325-1700",
+    contactRaw: "5569993251700",
     coordinates: { latitude: -8.78866, longitude: -63.87488 },
     theme: {
       primary: "#009E49", // Verde da Guiana
       secondary: "#FCD116", // Amarelo
       accent: "#CE1126", // Vermelho
       colors: ["#009E49", "#FCD116", "#000000", "#FFFFFF", "#CE1126"]
+    }
+  },
+  {
+    id: "py-1",
+    country: "Paraguai",
+    countryCode: "PY",
+    flag: "🇵🇾",
+    name: "GN Paraguai",
+    leader: "Marcos Cezar",
+    category: "MENINOS",
+    time: "Sábado — 16h30",
+    city: "Porto Velho - RO",
+    neighborhood: "Agenor de Carvalho",
+    zone: "Zona Leste",
+    contact: "69 9302-0795",
+    contactRaw: "5569993020795",
+    coordinates: { latitude: -8.75620, longitude: -63.87240 },
+    theme: {
+      primary: "#D52B1E", // Vermelho do Paraguai
+      secondary: "#FFFFFF", // Branco
+      accent: "#0038A8", // Azul
+      colors: ["#D52B1E", "#FFFFFF", "#0038A8"]
+    }
+  },
+  {
+    id: "uy-1",
+    country: "Uruguai",
+    countryCode: "UY",
+    flag: "🇺🇾",
+    name: "GN Uruguai",
+    leader: "Gabriel Johnson",
+    category: "MENINOS",
+    time: "Quinta-feira — 19h30",
+    city: "Porto Velho - RO",
+    neighborhood: "Tucumanzal",
+    zone: "Zona Sul",
+    contact: "69 9302-0795",
+    contactRaw: "5569993020795",
+    coordinates: { latitude: -8.77530, longitude: -63.90120 },
+    theme: {
+      primary: "#0038A8", // Azul do Uruguai
+      secondary: "#FFFFFF", // Branco
+      accent: "#FCD116", // Sol de Mayo
+      colors: ["#0038A8", "#FFFFFF", "#FCD116"]
+    }
+  },
+  {
+    id: "sr-1",
+    country: "Suriname",
+    countryCode: "SR",
+    flag: "🇸🇷",
+    name: "GN Suriname",
+    leader: "Marcelo",
+    category: "MENINOS",
+    time: "Sábado — 18h30",
+    city: "Porto Velho - RO",
+    neighborhood: "Três Marias",
+    zone: "Zona Leste",
+    contact: "69 9302-0795",
+    contactRaw: "5569993020795",
+    coordinates: { latitude: -8.75910, longitude: -63.85040 },
+    theme: {
+      primary: "#377E3F", // Verde do Suriname
+      secondary: "#B40A2D", // Vermelho
+      accent: "#ECC81D", // Estrela Dourada
+      colors: ["#377E3F", "#FFFFFF", "#B40A2D", "#ECC81D"]
     }
   }
 ];
