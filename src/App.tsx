@@ -382,7 +382,7 @@ export default function App() {
                   className="space-y-6"
                 >
                   <h3 className="text-center text-xs font-bold uppercase tracking-wider text-black/60">
-                    1. Com qual tipo de grupo você mais se identifica?
+                    1. Com qual tipo de grupo você quer participar?
                   </h3>
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl mx-auto">
