@@ -385,17 +385,17 @@ export default function App() {
                     1. Com qual tipo de grupo você quer participar?
                   </h3>
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl mx-auto">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5 max-w-4xl mx-auto">
                     {/* MENINAS */}
                     <button
                       type="button"
                       id="wizard-cat-meninas"
                       onClick={() => selectWizardCategory('MENINAS')}
-                      className="group relative py-8 border border-[#FF69B4]/20 bg-[#FF69B4]/3 text-[#FF69B4] rounded-2xl hover:bg-[#FF69B4]/8 transition-colors flex flex-col items-center justify-center gap-3"
+                      className="group relative py-7 px-3 border border-[#FF69B4]/20 bg-[#FF69B4]/3 text-[#FF69B4] rounded-2xl hover:bg-[#FF69B4]/8 transition-all flex flex-col items-center justify-center gap-2.5 active:scale-95 cursor-pointer shadow-2xs"
                     >
                       <span className="w-2.5 h-2.5 rounded-full bg-[#FF69B4]" />
                       <span className="text-xs font-bold tracking-[0.2em] uppercase">MENINAS</span>
-                      <span className="text-[10px] text-black/40 font-medium px-4">Círculo Feminino</span>
+                      <span className="text-[10px] text-black/45 font-medium">Círculo Feminino</span>
                     </button>
 
                     {/* MENINOS */}
@@ -403,11 +403,11 @@ export default function App() {
                       type="button"
                       id="wizard-cat-meninos"
                       onClick={() => selectWizardCategory('MENINOS')}
-                      className="group relative py-8 border border-[#4169E1]/20 bg-[#4169E1]/3 text-[#4169E1] rounded-2xl hover:bg-[#4169E1]/8 transition-colors flex flex-col items-center justify-center gap-3"
+                      className="group relative py-7 px-3 border border-[#4169E1]/20 bg-[#4169E1]/3 text-[#4169E1] rounded-2xl hover:bg-[#4169E1]/8 transition-all flex flex-col items-center justify-center gap-2.5 active:scale-95 cursor-pointer shadow-2xs"
                     >
                       <span className="w-2.5 h-2.5 rounded-full bg-[#4169E1]" />
                       <span className="text-xs font-bold tracking-[0.2em] uppercase">MENINOS</span>
-                      <span className="text-[10px] text-black/40 font-medium px-4">Círculo Masculino</span>
+                      <span className="text-[10px] text-black/45 font-medium">Círculo Masculino</span>
                     </button>
 
                     {/* MISTO */}
@@ -415,12 +415,36 @@ export default function App() {
                       type="button"
                       id="wizard-cat-misto"
                       onClick={() => selectWizardCategory('MISTO')}
-                      className="group relative py-8 border border-[#8A2BE2]/20 bg-[#8A2BE2]/3 text-[#8A2BE2] rounded-2xl hover:bg-[#8A2BE2]/8 transition-colors flex flex-col items-center justify-center gap-3"
+                      className="group relative py-7 px-3 border border-[#8A2BE2]/20 bg-[#8A2BE2]/3 text-[#8A2BE2] rounded-2xl hover:bg-[#8A2BE2]/8 transition-all flex flex-col items-center justify-center gap-2.5 active:scale-95 cursor-pointer shadow-2xs"
                     >
                       <span className="w-2.5 h-2.5 rounded-full bg-[#8A2BE2]" />
                       <span className="text-xs font-bold tracking-[0.2em] uppercase">MISTO</span>
-                      <span className="text-[10px] text-black/40 font-medium px-4">Comunhão Geral</span>
+                      <span className="text-[10px] text-black/45 font-medium">Comunhão Geral</span>
                     </button>
+
+                    {/* KIDS */}
+                    <div
+                      className="relative py-7 px-3 border border-amber-500/25 bg-amber-500/5 text-amber-600 rounded-2xl flex flex-col items-center justify-center gap-2.5 opacity-90 select-none"
+                    >
+                      <span className="absolute top-2.5 right-2.5 text-[8px] font-extrabold uppercase tracking-widest bg-amber-500 text-white px-2 py-0.5 rounded-full shadow-2xs">
+                        Em breve
+                      </span>
+                      <span className="w-2.5 h-2.5 rounded-full bg-amber-500" />
+                      <span className="text-xs font-bold tracking-[0.2em] uppercase">KIDS</span>
+                      <span className="text-[10px] text-black/45 font-medium">Crianças</span>
+                    </div>
+
+                    {/* JOVEM - EM BREVE */}
+                    <div
+                      className="relative py-7 px-3 border border-cyan-500/25 bg-cyan-500/5 text-cyan-600 rounded-2xl flex flex-col items-center justify-center gap-2.5 opacity-90 select-none"
+                    >
+                      <span className="absolute top-2.5 right-2.5 text-[8px] font-extrabold uppercase tracking-widest bg-cyan-600 text-white px-2 py-0.5 rounded-full shadow-2xs">
+                        Em breve
+                      </span>
+                      <span className="w-2.5 h-2.5 rounded-full bg-cyan-500" />
+                      <span className="text-xs font-bold tracking-[0.2em] uppercase">JOVEM</span>
+                      <span className="text-[10px] text-black/45 font-medium">Jovens</span>
+                    </div>
                   </div>
                 </motion.div>
               )}
