@@ -23,6 +23,7 @@ import { GN_GROUPS, GNGroup } from './data/groups';
 import { calculateDistance } from './utils/geo';
 import BibleVerseTicker from './components/BibleVerseTicker';
 import GroupCard from './components/GroupCard';
+import { BgradientAnim } from '@/components/ui/soft-gradient-background-animation';
 
 export default function App() {
   // Wizard States
@@ -200,7 +201,12 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#F8F9FA] text-[#1A1A1A] font-sans selection:bg-black/5 selection:text-black transition-colors duration-300 relative overflow-x-hidden">
       
-      {/* Decorative vibrant neon background for teens */}
+      {/* Soft OKLCH Animated Gradient Background */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <BgradientAnim className="opacity-70" animationDuration={8} />
+      </div>
+
+      {/* Decorative vibrant neon background blur accents */}
       <div className="absolute top-0 left-0 w-full h-[700px] pointer-events-none z-0 overflow-hidden">
         <div className="absolute -top-20 -left-20 w-72 h-72 bg-purple-500/15 rounded-full blur-3xl animate-pulse" />
         <div className="absolute top-32 right-0 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl" style={{ animationDelay: '1s' }} />
@@ -717,8 +723,8 @@ export default function App() {
 
         {/* Son Action Section */}
         <section className="mt-16 mb-12 max-w-3xl mx-auto text-center space-y-6">
-          <div className="bg-gradient-to-br from-purple-600 via-blue-600 to-emerald-500 p-[2px] rounded-2xl shadow-lg">
-            <div className="bg-white rounded-2xl p-6 md:p-8 space-y-5">
+          <div className="bg-gradient-to-br from-purple-600 via-blue-600 to-emerald-500 p-[2px] rounded-2xl shadow-lg overflow-hidden">
+            <div className="bg-white rounded-[14px] p-6 md:p-8 space-y-5">
               <h3 className="text-lg md:text-xl font-extrabold uppercase tracking-wider bg-gradient-to-r from-purple-600 via-blue-500 to-emerald-500 bg-clip-text text-transparent">
                 Participe também da Son Action!
               </h3>
