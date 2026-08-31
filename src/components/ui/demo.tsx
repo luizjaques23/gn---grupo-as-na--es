@@ -2,52 +2,44 @@ import { ImageStreamHero, StreamImage } from "@/components/ui/image-stream-hero"
 
 export const CHRISTIAN_IMAGES: StreamImage[] = [
   {
-    src: "https://images.unsplash.com/photo-1507692049790-de58290a4334?auto=format&fit=crop&w=800&q=80",
-    alt: "Mãos levantadas em adoração e louvor a Deus",
+    src: "/images/sonaction/sonaction-1.jpg",
+    alt: "Ministração da Palavra de Deus no culto Son Action — Igreja às Nações",
   },
   {
-    src: "https://images.unsplash.com/photo-1504052434569-70ad5836ab65?auto=format&fit=crop&w=800&q=80",
-    alt: "Bíblia Sagrada aberta iluminada pela luz do sol",
+    src: "/images/sonaction/sonaction-2.jpg",
+    alt: "Jovens e adolescentes de joelhos no altar em profunda oração",
   },
   {
-    src: "https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=800&q=80",
-    alt: "Cruz de Cristo silhuetada ao amanhecer",
+    src: "/images/sonaction/sonaction-3.jpg",
+    alt: "Momento íntimo de oração e reflexão com a Bíblia Sagrada aberta",
   },
   {
-    src: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=800&q=80",
-    alt: "Jovens cristãos reunidos em comunhão e amizade",
+    src: "/images/sonaction/sonaction-4.jpg",
+    alt: "Geração reunida em clamor, adoração e entrega a Deus",
   },
   {
-    src: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&w=800&q=80",
-    alt: "Momento íntimo de louvor e música acústica para Deus",
+    src: "/images/sonaction/sonaction-5.jpg",
+    alt: "Rendição e louvor sincero na presença do Senhor",
   },
   {
-    src: "https://images.unsplash.com/photo-1529070538774-1843cb3265df?auto=format&fit=crop&w=800&q=80",
-    alt: "Comunidade de jovens celebrando a fé juntos",
+    src: "/images/sonaction/sonaction-2.jpg",
+    alt: "Comunhão e quebrantamento na presença do Espírito Santo",
   },
   {
-    src: "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?auto=format&fit=crop&w=800&q=80",
-    alt: "Congregação reunida em culto de adoração",
+    src: "/images/sonaction/sonaction-1.jpg",
+    alt: "Pregação do Evangelho e edificação da juventude",
   },
   {
-    src: "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=80",
-    alt: "Estudo da Palavra de Deus e devocional",
+    src: "/images/sonaction/sonaction-3.jpg",
+    alt: "Devocional e busca pelas Escrituras Sagradas",
   },
   {
-    src: "https://images.unsplash.com/photo-1499209974431-9dddcece7f88?auto=format&fit=crop&w=800&q=80",
-    alt: "Momento de oração, gratidão e paz espiritual",
+    src: "/images/sonaction/sonaction-5.jpg",
+    alt: "Jovem prostrado em oração e clamor a Jesus Cristo",
   },
   {
-    src: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=800&q=80",
-    alt: "Culto de jovens com iluminação vibrante e louvor intenso",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80",
-    alt: "Amizades cristãs e companheirismo no GN",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1465847899084-d164df4dedc6?auto=format&fit=crop&w=800&q=80",
-    alt: "Celebração e avivamento espiritual",
+    src: "/images/sonaction/sonaction-4.jpg",
+    alt: "Adolescentes e jovens firmados no propósito divino",
   },
 ];
 
@@ -72,7 +64,7 @@ export default function DemoOne() {
           </h2>
         </div>
         <p className="max-w-md text-balance px-6 text-xs sm:text-sm text-black/60 font-medium bg-white/80 backdrop-blur-sm py-2 px-4 rounded-full border border-black/5 shadow-xs">
-          Momentos de fé, comunhão nos GNs, celebração e o agir de Deus na juventude da Igreja às Nações.
+          Momentos reais de fé, quebrantamento, oração e o agir de Deus na juventude da Igreja às Nações e Son Action.
         </p>
       </div>
     </ImageStreamHero>
