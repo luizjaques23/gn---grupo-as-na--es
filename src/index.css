@@ -1,25 +1,53 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --bg-primary: #F8F9FA;
+  --text-primary: #1A1A1A;
+  color-scheme: light dark;
+}
+
+html.dark {
+  --bg-primary: #090A0F;
+  --text-primary: #F3F4F6;
+}
+
 html, body {
-  background-color: #F8F9FA;
-  color: #1A1A1A;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   margin: 0;
   padding: 0;
   -webkit-tap-highlight-color: transparent;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 /* Fast & GPU-accelerated soft background gradient animation for all mobile browsers */
 .oklch-gradient-bg {
   background: linear-gradient(
     135deg,
-    rgba(147, 51, 234, 0.08) 0%,
-    rgba(59, 130, 246, 0.08) 35%,
-    rgba(16, 185, 129, 0.08) 70%,
-    rgba(236, 72, 153, 0.08) 100%
+    rgba(147, 51, 234, 0.07) 0%,
+    rgba(59, 130, 246, 0.07) 35%,
+    rgba(16, 185, 129, 0.07) 70%,
+    rgba(236, 72, 153, 0.07) 100%
   );
   background-size: 200% 200%;
-  animation: anim_bg_fast 10s ease infinite;
+  animation: anim_bg_fast 12s ease infinite;
   will-change: background-position;
+}
+
+.dark .oklch-gradient-bg {
+  background: linear-gradient(
+    135deg,
+    rgba(147, 51, 234, 0.14) 0%,
+    rgba(59, 130, 246, 0.12) 35%,
+    rgba(16, 185, 129, 0.10) 70%,
+    rgba(236, 72, 153, 0.12) 100%
+  );
+  background-size: 200% 200%;
 }
 
 @keyframes anim_bg_fast {
@@ -54,4 +82,28 @@ html, body {
 .animate-marquee-infinite:hover,
 .animate-marquee-infinite:active {
   animation-play-state: paused;
+}
+
+/* Mobile tap & scroll responsiveness */
+button, a {
+  touch-action: manipulation;
+}
+
+/* Smooth custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 9999px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
 }

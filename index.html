@@ -2,17 +2,37 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GN - Grupo as Nações | Igreja às Nações</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+    <title>GN - Grupo às Nações | Igreja às Nações</title>
     <meta name="description" content="Encontre um Grupo de Conexão (GN) perto de você. Uma família para pertencer." />
-    <meta property="og:title" content="GN - Grupo as Nações | Igreja às Nações" />
+    <meta name="theme-color" content="#F8F9FA" id="theme-color-meta" />
+    <meta property="og:title" content="GN - Grupo às Nações | Igreja às Nações" />
     <meta property="og:description" content="Encontre um Grupo de Conexão (GN) perto de você. Uma família para pertencer." />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
+    
+    <!-- Preload Logo for instant mobile header rendering -->
+    <link rel="preload" href="/white_logo_ian.png" as="image" />
+
+    <!-- Instant Dark Mode Init Script (Zero Latency / No Flash) -->
+    <script>
+      (function() {
+        try {
+          const storedTheme = localStorage.getItem('gn_theme');
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (storedTheme === 'dark' || (!storedTheme && prefersDark)) {
+            document.documentElement.classList.add('dark');
+            const meta = document.getElementById('theme-color-meta');
+            if (meta) meta.setAttribute('content', '#090A0F');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
-  <body style="background-color: #F8F9FA; margin: 0; padding: 0;">
+  <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-

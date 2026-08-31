@@ -48,22 +48,22 @@ export default function DemoOne() {
   return (
     <ImageStreamHero
       images={CHRISTIAN_IMAGES}
-      className="h-[560px] w-full rounded-2xl border border-black/10 bg-white/70 backdrop-blur-md shadow-xl"
+      className="h-[520px] md:h-[560px] w-full rounded-2xl border border-black/10 dark:border-white/10 bg-white/80 dark:bg-[#12131C]/80 backdrop-blur-md shadow-xl"
     >
-      <div className="relative z-10 flex h-full flex-col items-center justify-between py-12 text-center pointer-events-none">
+      <div className="relative z-10 flex h-full flex-col items-center justify-between py-10 text-center pointer-events-none">
         <div className="px-6 space-y-2">
-          <span className="inline-block px-3 py-1 rounded-full bg-gradient-to-r from-purple-500/10 via-blue-500/10 to-emerald-500/10 border border-black/5 text-[10px] font-bold uppercase tracking-[0.25em] text-black/70">
+          <span className="inline-block px-3 py-1 rounded-full bg-gradient-to-r from-purple-500/10 via-blue-500/10 to-emerald-500/10 dark:from-purple-500/20 dark:via-blue-500/20 dark:to-emerald-500/20 border border-black/5 dark:border-white/10 text-[10px] font-bold uppercase tracking-[0.25em] text-black/70 dark:text-zinc-300">
             Nossa Vivência &amp; Adoração
           </span>
-          <h2 className="text-balance text-3xl font-extrabold tracking-tight text-zinc-900 sm:text-4xl">
+          <h2 className="text-balance text-2xl sm:text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white">
             Uma Geração Apaixonada
             <br />
-            <span className="bg-gradient-to-r from-purple-600 via-blue-600 to-emerald-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-purple-600 via-blue-500 to-emerald-500 dark:from-purple-400 dark:via-blue-400 dark:to-emerald-400 bg-clip-text text-transparent">
               por Jesus Cristo
             </span>
           </h2>
         </div>
-        <p className="max-w-md text-balance px-6 text-xs sm:text-sm text-black/60 font-medium bg-white/80 backdrop-blur-sm py-2 px-4 rounded-full border border-black/5 shadow-xs">
+        <p className="max-w-md text-balance px-6 text-xs sm:text-sm text-black/70 dark:text-zinc-300 font-medium bg-white/90 dark:bg-black/70 backdrop-blur-sm py-2 px-4 rounded-full border border-black/5 dark:border-white/10 shadow-xs">
           Momentos reais de fé, quebrantamento, oração e o agir de Deus na juventude da Igreja às Nações e Son Action.
         </p>
       </div>
