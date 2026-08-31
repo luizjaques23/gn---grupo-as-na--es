@@ -84,6 +84,19 @@ html, body {
   animation-play-state: paused;
 }
 
+/* Photo Gallery continuous lateral marquee */
+.animate-marquee-photos {
+  display: flex;
+  width: max-content;
+  animation: marquee_infinite 34s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-photos:hover,
+.animate-marquee-photos:active {
+  animation-play-state: paused;
+}
+
 /* Mobile tap & scroll responsiveness */
 button, a {
   touch-action: manipulation;

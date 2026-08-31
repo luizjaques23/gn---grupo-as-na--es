@@ -25,8 +25,7 @@ import { calculateDistance } from './utils/geo';
 import BibleVerseTicker from './components/BibleVerseTicker';
 import GroupCard from './components/GroupCard';
 import { BgradientAnim } from '@/components/ui/soft-gradient-background-animation';
-import { ImageStreamHero } from '@/components/ui/image-stream-hero';
-import { CHRISTIAN_IMAGES } from '@/components/ui/demo';
+import { CHRISTIAN_GALLERY_PHOTOS } from '@/components/ui/demo';
 
 export default function App() {
   // Theme State (Light / Dark Mode)
@@ -928,52 +927,66 @@ export default function App() {
           </div>
         </section>
 
-        {/* Galeria 3D de Fotos Cristãs & Vivência nos GNs / Son Action (ImageStreamHero Corridor) */}
-        <section className="mt-14 mb-10 max-w-5xl mx-auto space-y-5 text-center">
-          <div className="space-y-1.5">
-            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-black/50 dark:text-zinc-400">
+        {/* Galeria de Fotos Cristãs & Vivência nos GNs / Son Action (Carrossel Lateral Contínuo) */}
+        <section id="galeria-fotos" className="mt-14 mb-10 space-y-5">
+          <div className="text-center space-y-1 max-w-5xl mx-auto px-6">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/10 dark:bg-purple-950/40 border border-purple-500/20 text-[10px] font-bold uppercase tracking-[0.25em] text-purple-700 dark:text-purple-300 mb-1">
+              <Sparkles className="w-3 h-3 text-purple-600 dark:text-purple-400" />
               Galeria &amp; Comunhão
-            </span>
+            </div>
             <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">
               Momentos de Fé, Louvor &amp; Amizade
             </h2>
-            <p className="text-xs md:text-sm text-black/60 dark:text-zinc-400 max-w-lg mx-auto">
-              Veja registros reais da nossa juventude nos GNs e nos cultos da Son Action.
+            <p className="text-xs md:text-sm text-black/60 dark:text-zinc-400 max-w-md mx-auto">
+              Fotos passando lateralmente — toque ou segure em qualquer foto para pausar e ver detalhes
             </p>
+            <div className="h-0.5 w-10 bg-gradient-to-r from-purple-500 via-blue-500 to-emerald-500 mx-auto mt-2 rounded-full" />
           </div>
 
-          <div className="relative rounded-3xl overflow-hidden border border-black/10 dark:border-white/10 shadow-xl bg-white/70 dark:bg-[#12131C]/70 backdrop-blur-md">
-            <ImageStreamHero
-              images={CHRISTIAN_IMAGES}
-              cards={10}
-              speed={16}
-              axis={50}
-              className="h-[480px] md:h-[560px] w-full"
-            >
-              <div className="relative z-10 flex h-full flex-col items-center justify-between py-10 text-center pointer-events-none">
-                <div className="px-6">
-                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 dark:bg-black/80 shadow-xs border border-black/5 dark:border-white/10 backdrop-blur-sm mb-3">
-                    <Sparkles className="w-3.5 h-3.5 text-amber-500 animate-pulse" />
-                    <span className="text-[10px] font-bold tracking-widest uppercase text-black/80 dark:text-zinc-200">
-                      Igreja às Nações · Jovens &amp; Adolescentes
+          {/* Lateral Continuous Infinite Marquee Carousel */}
+          <div className="relative overflow-hidden w-full py-4">
+            <div className="animate-marquee-photos gap-4 px-2">
+              {[...CHRISTIAN_GALLERY_PHOTOS, ...CHRISTIAN_GALLERY_PHOTOS, ...CHRISTIAN_GALLERY_PHOTOS, ...CHRISTIAN_GALLERY_PHOTOS].map((item, idx) => (
+                <div
+                  key={`${item.title}-${idx}`}
+                  className="w-[280px] sm:w-[320px] h-[380px] sm:h-[400px] flex-shrink-0 bg-white dark:bg-[#12131C] rounded-3xl border border-black/[0.06] dark:border-white/[0.08] shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden relative group select-none flex flex-col justify-end"
+                >
+                  {/* Photo with smooth zoom on hover/touch */}
+                  <img
+                    src={item.src}
+                    alt={item.title}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  
+                  {/* Dark gradient overlay for text readability in both light & dark mode */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-black/10 transition-opacity" />
+
+                  {/* Top Category Badge */}
+                  <div className="absolute top-4 left-4 z-10">
+                    <span className={`inline-block px-3 py-1 rounded-full ${item.badgeColor} text-white text-[10px] font-extrabold uppercase tracking-wider shadow-md`}>
+                      {item.category}
                     </span>
                   </div>
-                  <h3 className="text-2xl md:text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white drop-shadow-xs">
-                    Uma Geração Apaixonada
-                    <br />
-                    <span className="bg-gradient-to-r from-purple-600 via-blue-500 to-emerald-500 dark:from-purple-400 dark:via-blue-400 dark:to-emerald-400 bg-clip-text text-transparent">
-                      por Jesus Cristo
-                    </span>
-                  </h3>
-                </div>
 
-                <div className="px-6 max-w-md">
-                  <p className="text-xs sm:text-sm text-black/75 dark:text-zinc-200 font-medium bg-white/90 dark:bg-black/75 backdrop-blur-md py-2.5 px-5 rounded-2xl border border-black/5 dark:border-white/10 shadow-md">
-                    Cultos cheios da presença de Deus, oração, comunhão nos lares e vidas transformadas pelo Evangelho.
-                  </p>
+                  {/* Bottom Text Content */}
+                  <div className="relative z-10 p-5 space-y-1.5 text-left text-white">
+                    <h3 className="text-base sm:text-lg font-bold tracking-tight text-white drop-shadow-sm">
+                      {item.title}
+                    </h3>
+                    <p className="text-xs text-white/80 font-medium leading-snug line-clamp-2">
+                      {item.description}
+                    </p>
+                    <div className="pt-2 flex items-center gap-1.5 text-[10px] font-semibold tracking-wider text-white/60 uppercase">
+                      <span>Igreja às Nações</span>
+                      <span>·</span>
+                      <span>Son Action</span>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </ImageStreamHero>
+              ))}
+            </div>
           </div>
         </section>
 
