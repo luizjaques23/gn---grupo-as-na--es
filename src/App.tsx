@@ -24,6 +24,8 @@ import { calculateDistance } from './utils/geo';
 import BibleVerseTicker from './components/BibleVerseTicker';
 import GroupCard from './components/GroupCard';
 import { BgradientAnim } from '@/components/ui/soft-gradient-background-animation';
+import { ImageStreamHero } from '@/components/ui/image-stream-hero';
+import { CHRISTIAN_IMAGES } from '@/components/ui/demo';
 
 export default function App() {
   // Wizard States
@@ -819,6 +821,55 @@ export default function App() {
                 </a>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* Galeria 3D de Fotos Cristãs & Vivência nos GNs / Son Action (ImageStreamHero Corridor) */}
+        <section className="mt-16 mb-12 max-w-5xl mx-auto space-y-6 text-center">
+          <div className="space-y-2">
+            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-black/40">
+              Galeria &amp; Comunhão
+            </span>
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-zinc-900">
+              Momentos de Fé, Louvor &amp; Amizade
+            </h2>
+            <p className="text-xs md:text-sm text-black/50 max-w-lg mx-auto">
+              Veja como é estar conectado em um Grupo às Nações e fazer parte dos nossos encontros e cultos.
+            </p>
+          </div>
+
+          <div className="relative rounded-3xl overflow-hidden border border-black/10 shadow-xl bg-white/60 backdrop-blur-md">
+            <ImageStreamHero
+              images={CHRISTIAN_IMAGES}
+              cards={10}
+              speed={16}
+              axis={50}
+              className="h-[480px] md:h-[560px] w-full"
+            >
+              <div className="relative z-10 flex h-full flex-col items-center justify-between py-10 text-center pointer-events-none">
+                <div className="px-6">
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 shadow-xs border border-black/5 backdrop-blur-sm mb-3">
+                    <Sparkles className="w-3.5 h-3.5 text-amber-500 animate-pulse" />
+                    <span className="text-[10px] font-bold tracking-widest uppercase text-black/80">
+                      Igreja às Nações · Jovens &amp; Adolescentes
+                    </span>
+                  </div>
+                  <h3 className="text-2xl md:text-4xl font-extrabold tracking-tight text-zinc-900 drop-shadow-xs">
+                    Uma Geração Apaixonada
+                    <br />
+                    <span className="bg-gradient-to-r from-purple-600 via-blue-600 to-emerald-500 bg-clip-text text-transparent">
+                      por Jesus Cristo
+                    </span>
+                  </h3>
+                </div>
+
+                <div className="px-6 max-w-md">
+                  <p className="text-xs sm:text-sm text-black/75 font-medium bg-white/90 backdrop-blur-md py-2.5 px-5 rounded-2xl border border-black/5 shadow-md">
+                    Cultos cheios da presença de Deus, oração, comunhão nos lares e vidas transformadas pelo Evangelho.
+                  </p>
+                </div>
+              </div>
+            </ImageStreamHero>
           </div>
         </section>
 
