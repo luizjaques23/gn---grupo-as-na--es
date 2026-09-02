@@ -1,282 +1,626 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+/* ============================================================
+   GN — ATLAS DAS NAÇÕES
+   Design system: prancha de atlas / carta náutica.
+   Claro  = papel de levantamento topográfico.
+   Escuro = carta náutica noturna.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&family=Archivo:ital,wdth,wght@0,75..125,300..900;1,75..125,300..900&family=JetBrains+Mono:ital,wght@0,300..700;1,300..700&display=swap');
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* ------------------------------------------------------------
+   1. PALETA
+   ------------------------------------------------------------ */
+
 :root {
-  --bg-primary: #F8F9FA;
-  --text-primary: #1A1A1A;
-  color-scheme: light dark;
+  color-scheme: light;
+
+  /* Papel */
+  --paper:        #EDE7DA;
+  --paper-raised: #F6F2E8;
+  --paper-sunk:   #E3DCCC;
+
+  /* Tinta */
+  --ink:          #14181D;
+  --ink-2:        #3D444E;
+  --ink-3:        #6E7681;
+  --ink-4:        #9AA0A8;
+
+  /* Traçado */
+  --rule:         rgb(20 24 29 / 0.16);
+  --rule-soft:    rgb(20 24 29 / 0.08);
+  --graticule:    rgb(20 24 29 / 0.055);
+  --graticule-major: rgb(20 24 29 / 0.10);
+
+  /* Selo do levantamento */
+  --seal:         #9E2B18;
+  --seal-ink:     #FFFFFF;
+  --bearing:      #1C5E63;
+
+  /* Acento da nação em foco — sobrescrito em runtime */
+  --nation:       #9E2B18;
+  --nation-2:     #1C5E63;
+  --nation-3:     #C8952F;
+
+  /* Tinta de cada categoria — quatro matizes distintos, nenhum deles igual
+     ao selo (--seal) nem à cor de marcação (--bearing), que já querem dizer
+     outra coisa nesta prancha. Misto é a mistura das duas primeiras. */
+  --cat-meninas:  #A32F63;
+  --cat-meninos:  #1F4E9C;
+  --cat-misto:    #6B3FA0;
+  --cat-kids:     #8A6410;
+
+
+  --grain-opacity: 0.055;
+  --plate-shadow: 0 1px 0 rgb(255 255 255 / 0.5) inset,
+                  0 12px 34px -22px rgb(20 24 29 / 0.45);
 }
 
 html.dark {
-  --bg-primary: #090A0F;
-  --text-primary: #F3F4F6;
+  color-scheme: dark;
+
+  --paper:        #070A0E;
+  --paper-raised: #0D131A;
+  --paper-sunk:   #04070A;
+
+  --ink:          #E9E3D4;
+  --ink-2:        #B4BAC2;
+  --ink-3:        #7E8792;
+  --ink-4:        #58616C;
+
+  --rule:         rgb(233 227 212 / 0.17);
+  --rule-soft:    rgb(233 227 212 / 0.08);
+  --graticule:    rgb(120 200 210 / 0.06);
+  --graticule-major: rgb(120 200 210 / 0.11);
+
+  --seal:         #E2603C;
+  --seal-ink:     #0A0E13;
+  --bearing:      #4FD1C5;
+
+  --nation:       #E2603C;
+  --nation-2:     #4FD1C5;
+  --nation-3:     #E0B24C;
+
+  --cat-meninas:  #F08AB6;
+  --cat-meninos:  #7FB3FF;
+  --cat-misto:    #BE94F5;
+  --cat-kids:     #E0B24C;
+
+
+  --grain-opacity: 0.04;
+  --plate-shadow: 0 1px 0 rgb(233 227 212 / 0.05) inset,
+                  0 18px 44px -28px rgb(0 0 0 / 0.9);
 }
 
-html {
-  scroll-behavior: smooth;
+/* ------------------------------------------------------------
+   2. TOKENS TAILWIND
+   ------------------------------------------------------------ */
+
+@theme {
+  --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --font-sans: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  --color-paper: var(--paper);
+  --color-paper-raised: var(--paper-raised);
+  --color-paper-sunk: var(--paper-sunk);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-ink-4: var(--ink-4);
+  --color-rule: var(--rule);
+  --color-rule-soft: var(--rule-soft);
+  --color-seal: var(--seal);
+  --color-bearing: var(--bearing);
+  --color-nation: var(--nation);
+
+  --ease-plate: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-chart: cubic-bezier(0.33, 0.02, 0, 1);
 }
 
-html, body {
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  margin: 0;
-  padding: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  -webkit-tap-highlight-color: transparent;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.25s ease, color 0.25s ease;
-  -webkit-overflow-scrolling: touch;
-}
+/* ------------------------------------------------------------
+   3. BASE
+   ------------------------------------------------------------ */
 
-/* Fast & GPU-accelerated soft background gradient animation for all mobile browsers */
-.oklch-gradient-bg {
-  background: linear-gradient(
-    135deg,
-    rgba(147, 51, 234, 0.07) 0%,
-    rgba(59, 130, 246, 0.07) 35%,
-    rgba(16, 185, 129, 0.07) 70%,
-    rgba(236, 72, 153, 0.07) 100%
-  );
-  background-size: 200% 200%;
-  animation: anim_bg_fast 12s ease infinite;
-  will-change: background-position;
-}
-
-.dark .oklch-gradient-bg {
-  background: linear-gradient(
-    135deg,
-    rgba(147, 51, 234, 0.14) 0%,
-    rgba(59, 130, 246, 0.12) 35%,
-    rgba(16, 185, 129, 0.10) 70%,
-    rgba(236, 72, 153, 0.12) 100%
-  );
-  background-size: 200% 200%;
-}
-
-@keyframes anim_bg_fast {
-  0% {
-    background-position: 0% 50%;
+@layer base {
+  html {
+    /* O scroll suave é feito por rAF em useSmoothScroll — nativo desligado
+       para os dois não brigarem pela mesma posição. */
+    scroll-behavior: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
-  50% {
-    background-position: 100% 50%;
+
+  html::-webkit-scrollbar { width: 0; height: 0; display: none; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-variation-settings: "wdth" 100;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior-y: none;
   }
-  100% {
-    background-position: 0% 50%;
+
+  body {
+    transition: background-color 0.4s var(--ease-chart), color 0.4s var(--ease-chart);
+  }
+
+  /* Grão de papel — uma textura, não um gradiente */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: -50%;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: var(--grain-opacity);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+    mix-blend-mode: var(--grain-blend, multiply);
+  }
+
+  html.dark body::after { --grain-blend: screen; }
+
+  ::selection {
+    background: color-mix(in oklab, var(--nation) 28%, transparent);
+    color: var(--ink);
+  }
+
+  button, a, [role="button"] { touch-action: manipulation; }
+
+  *:focus-visible {
+    outline: 1.5px solid var(--nation);
+    outline-offset: 3px;
+    border-radius: 2px;
   }
 }
 
-/* Smooth continuous marquee animation for Nossos GNs flags carousel */
-@keyframes marquee_infinite {
-  0% {
+/* ------------------------------------------------------------
+   4. TIPOGRAFIA DE CARTA
+   ------------------------------------------------------------ */
+
+@layer components {
+  .font-plate {
+    font-family: var(--font-display);
+    font-variation-settings: "SOFT" 22, "WONK" 1, "opsz" 128;
+    font-weight: 500;
+    letter-spacing: -0.025em;
+  }
+
+  .font-plate-tight {
+    font-family: var(--font-display);
+    font-variation-settings: "SOFT" 8, "WONK" 0, "opsz" 20;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+
+  /* Rótulo de legenda: mono, caixa alta, entrelinha larga */
+  .legend {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    font-size: 0.5625rem;
+    line-height: 1.4;
+  }
+
+  :where(.legend) { color: var(--ink-3); }
+
+  .legend-strong {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 0.625rem;
+  }
+
+  :where(.legend-strong) { color: var(--ink); }
+
+  /* O arquivo do logotipo é branco puro com canal alfa. No papel claro o
+     filtro o repinta de tinta escura, o que dispensa o bloco preto que
+     antes ficava atrás dele; no papel escuro ele volta a ser branco. */
+  .logo-mark { filter: brightness(0); }
+  .dark .logo-mark { filter: none; }
+  /* Sobre a folha 01 o fundo é sempre escuro: a marca fica branca. */
+  .hero-dark .logo-mark { filter: none; }
+
+  /* Números de campo: tabulares, sempre alinhados */
+  .figure {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1, "zero" 1;
+    letter-spacing: -0.01em;
+  }
+
+  /* ------------------------------------------------------------
+     5. PRANCHAS (cards)
+     ------------------------------------------------------------ */
+
+  .plate {
+    position: relative;
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    box-shadow: var(--plate-shadow);
+  }
+
+  /* Cantos de registro — as marcas de corte da prancha impressa */
+  .plate-corners::before,
+  .plate-corners::after {
+    content: "";
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    border-color: var(--ink-4);
+    border-style: solid;
+    pointer-events: none;
+    opacity: 0.7;
+  }
+
+  .plate-corners::before {
+    top: 6px; left: 6px;
+    border-width: 1px 0 0 1px;
+  }
+
+  .plate-corners::after {
+    bottom: 6px; right: 6px;
+    border-width: 0 1px 1px 0;
+  }
+
+  /* Fita de bandeira: as cores reais do país, sem degradê inventado.
+     O contorno e os filetes internos existem porque metade destas bandeiras
+     tem branco, que sem eles desaparece dentro do papel. */
+  .flag-band {
+    display: flex;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px var(--rule);
+  }
+
+  .flag-band > span {
+    flex: 1;
+    display: block;
+  }
+
+  .flag-band > span + span {
+    box-shadow: inset 1px 0 0 var(--rule);
+  }
+
+  /* Bandeira de verdade: o desenho oficial, na proporção real do país.
+     Só recebe o filete de contorno, porque metade delas tem branco na
+     borda e sumiria dentro do papel. */
+  .flag-plate {
+    display: block;
+    object-fit: contain;
+    box-shadow: 0 0 0 1px var(--rule);
+    background: var(--paper-raised);
+  }
+
+  /* ------------------------------------------------------------
+     5b. LADRILHOS DE CATEGORIA (primeira pergunta)
+     Cada categoria tem tinta própria: a cor é o que chama o toque.
+     ------------------------------------------------------------ */
+
+  .cat-tile {
+    position: relative;
+    overflow: hidden;
+    background: var(--paper-raised);
+    transition: background-color 0.35s var(--ease-chart);
+  }
+
+  /* A tarja de cor no topo é a etiqueta da categoria */
+  .cat-tile__band {
+    display: block;
+    height: 6px;
+    width: 100%;
+    background: var(--tint);
+    transform-origin: left center;
+    transition: height 0.35s var(--ease-plate);
+  }
+
+  /* Lavagem da mesma tinta, que sobe do rodapé ao encostar */
+  .cat-tile__wash {
+    position: absolute;
+    inset: 0;
+    background: var(--tint);
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+    transition: transform 0.5s var(--ease-plate), opacity 0.5s var(--ease-plate);
+    pointer-events: none;
+  }
+
+  .cat-tile:hover .cat-tile__wash,
+  .cat-tile:focus-visible .cat-tile__wash {
+    opacity: 0.09;
     transform: translate3d(0, 0, 0);
   }
-  100% {
-    transform: translate3d(-50%, 0, 0);
-  }
-}
 
-.animate-marquee-infinite {
-  display: flex;
-  width: max-content;
-  animation: marquee_infinite 25s linear infinite;
-  will-change: transform;
-}
+  .cat-tile:hover .cat-tile__band,
+  .cat-tile:focus-visible .cat-tile__band { height: 10px; }
 
-.animate-marquee-infinite:hover,
-.animate-marquee-infinite:active {
-  animation-play-state: paused;
-}
-
-/* Photo Gallery continuous lateral marquee */
-.animate-marquee-photos {
-  display: flex;
-  width: max-content;
-  animation: marquee_infinite 34s linear infinite;
-  will-change: transform;
-}
-
-.animate-marquee-photos:hover,
-.animate-marquee-photos:active {
-  animation-play-state: paused;
-}
-
-/* Mobile tap & scroll responsiveness */
-button, a {
-  touch-action: manipulation;
-}
-
-/* Smooth custom scrollbars */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.15);
-  border-radius: 9999px;
-}
-
-.dark ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
-}
-
-/* =========================================
-   PREMIUM SCROLL ANIMATIONS
-   GPU-accelerated, lightweight, mobile-safe
-   ========================================= */
-
-/* Fade-in from below — for cards and sections entering viewport */
-@keyframes fadeInUp {
-  from {
+  .cat-tile__arrow {
+    transition: transform 0.4s var(--ease-plate), opacity 0.3s ease;
     opacity: 0;
-    transform: translate3d(0, 24px, 0);
+    transform: translate3d(-6px, 0, 0);
   }
-  to {
+
+  .cat-tile:hover .cat-tile__arrow,
+  .cat-tile:focus-visible .cat-tile__arrow {
     opacity: 1;
     transform: translate3d(0, 0, 0);
   }
-}
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale3d(0.96, 0.96, 1);
+  /* No toque não existe hover: a tarja já entrega a cor de saída */
+  @media (hover: none) {
+    .cat-tile__arrow { opacity: 1; transform: none; }
   }
-  to {
-    opacity: 1;
-    transform: scale3d(1, 1, 1);
+
+  /* Etiqueta de distância: é medição, não bandeira. A tinta da nação varia
+     de país para país e some em metade delas — esta usa sempre a cor de
+     marcação (--bearing), a mesma do GPS, e vem chapada para não competir
+     com nada na linha. */
+  .dist-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: var(--bearing);
+    color: var(--paper);
+    padding: 0.2rem 0.45rem;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
   }
-}
 
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-/* Premium card touch/hover feedback */
-.premium-card {
-  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
-              box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1),
-              border-color 0.25s ease;
-}
-
-.premium-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px -8px rgba(0, 0, 0, 0.12),
-              0 4px 12px -4px rgba(0, 0, 0, 0.06);
-}
-
-.dark .premium-card:hover {
-  box-shadow: 0 8px 30px -8px rgba(0, 0, 0, 0.5),
-              0 4px 12px -4px rgba(0, 0, 0, 0.3);
-}
-
-.premium-card:active {
-  transform: translateY(0) scale(0.985);
-  transition-duration: 0.1s;
-}
-
-/* Premium button press effect */
-.premium-btn {
-  transition: transform 0.15s cubic-bezier(0.22, 1, 0.36, 1),
-              box-shadow 0.2s ease,
-              background-color 0.2s ease,
-              filter 0.2s ease;
-}
-
-.premium-btn:active {
-  transform: scale(0.96);
-  transition-duration: 0.08s;
-}
-
-/* Enhanced focus-visible for accessibility */
-*:focus-visible {
-  outline: 2px solid rgba(139, 92, 246, 0.6);
-  outline-offset: 2px;
-  border-radius: 8px;
-}
-
-/* Subtle glassmorphism for cards */
-.glass-card {
-  backdrop-filter: blur(12px) saturate(1.2);
-  -webkit-backdrop-filter: blur(12px) saturate(1.2);
-}
-
-/* Flag shimmer on hover */
-.flag-shimmer:hover .flag-emoji {
-  animation: flagPulse 0.6s ease-in-out;
-}
-
-@keyframes flagPulse {
-  0% { transform: scale(1); }
-  30% { transform: scale(1.15) rotate(-3deg); }
-  60% { transform: scale(1.1) rotate(2deg); }
-  100% { transform: scale(1); }
-}
-
-/* Gradient text shimmer effect for headings */
-.gradient-shimmer {
-  background-size: 200% auto;
-  animation: gradientShift 4s ease infinite;
-}
-
-@keyframes gradientShift {
-  0% { background-position: 0% center; }
-  50% { background-position: 100% center; }
-  100% { background-position: 0% center; }
-}
-
-/* Smooth section divider line */
-.section-divider {
-  height: 1px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    rgba(0, 0, 0, 0.08) 20%,
-    rgba(0, 0, 0, 0.08) 80%,
-    transparent
-  );
-}
-
-.dark .section-divider {
-  background: linear-gradient(
-    to right,
-    transparent,
-    rgba(255, 255, 255, 0.06) 20%,
-    rgba(255, 255, 255, 0.06) 80%,
-    transparent
-  );
-}
-
-/* GPS pulse ring animation */
-@keyframes gpsPulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+  /* Régua de bandeira vertical na canaleta esquerda do card */
+  .flag-gutter {
+    display: flex;
+    flex-direction: column;
+    width: 3px;
+    overflow: hidden;
   }
-  70% {
-    box-shadow: 0 0 0 12px rgba(239, 68, 68, 0);
+
+  .flag-gutter > span { flex: 1; }
+  .flag-gutter > span + span { box-shadow: inset 0 1px 0 var(--rule); }
+
+  /* ------------------------------------------------------------
+     6. TRAÇOS E RÉGUAS
+     ------------------------------------------------------------ */
+
+  .hairline {
+    height: 1px;
+    background: var(--rule);
   }
-  100% {
-    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+
+  .hairline-dashed {
+    height: 1px;
+    background-image: repeating-linear-gradient(
+      to right,
+      var(--rule) 0 4px,
+      transparent 4px 9px
+    );
   }
+
+  /* Régua horizontal com marcações, como a escala de um mapa */
+  .tick-rule {
+    height: 10px;
+    background-image:
+      linear-gradient(to right, var(--rule) 1px, transparent 1px);
+    background-size: 8px 100%;
+    background-position: bottom left;
+    background-repeat: repeat-x;
+    opacity: 0.6;
+  }
+
+  /* ------------------------------------------------------------
+     7. TRILHO DE LATITUDE (scrollbar customizada)
+     ------------------------------------------------------------ */
+
+  .rail-tick {
+    height: 1px;
+    background: var(--rule);
+    transition: width 0.5s var(--ease-plate), background-color 0.5s var(--ease-plate);
+  }
+
+  .rail-tick[data-passed="true"] { background: var(--ink-3); }
+  .rail-tick[data-active="true"] { background: var(--nation); }
+
+  /* ------------------------------------------------------------
+     8. CAMPOS DE FORMULÁRIO
+     ------------------------------------------------------------ */
+
+  /* Campo emoldurado: uma linha fina embaixo lia como texto decorativo.
+     Caixa inteira, fundo próprio e foco na cor da nação — o visitante
+     enxerga onde clicar sem precisar passar o mouse para descobrir. */
+  .field {
+    width: 100%;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 0;
+    padding: 0.95rem 1rem 0.95rem 2.5rem;
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--ink);
+    transition: border-color 0.3s var(--ease-chart), background-color 0.3s var(--ease-chart),
+      box-shadow 0.3s var(--ease-chart);
+  }
+
+  .field::placeholder { color: var(--ink-3); font-weight: 400; }
+
+  .field:hover { border-color: var(--ink-4); background: var(--paper-sunk); }
+
+  .field:focus {
+    outline: none;
+    border-color: var(--nation);
+    box-shadow: inset 0 0 0 1px var(--nation);
+    background: color-mix(in oklab, var(--nation) 6%, var(--paper));
+  }
+
+  /* Campo com valor escolhido: fica marcado mesmo sem foco */
+  .field[data-filled='true'] {
+    border-color: var(--nation);
+    background: color-mix(in oklab, var(--nation) 5%, var(--paper));
+  }
+
+  select.field {
+    appearance: none;
+    cursor: pointer;
+    padding-right: 2.75rem;
+  }
+
+  select.field option {
+    background: var(--paper-raised);
+    color: var(--ink);
+  }
+
+  /* ------------------------------------------------------------
+     9. MOVIMENTO
+     ------------------------------------------------------------ */
+
+  /* Revelação por máscara: o texto sobe de trás de uma linha de corte */
+  @keyframes plate-rise {
+    from { transform: translate3d(0, 105%, 0); }
+    to   { transform: translate3d(0, 0, 0); }
+  }
+
+  .rise-mask { overflow: hidden; display: block; }
+  .rise-mask > * {
+    display: block;
+    animation: plate-rise 1.05s var(--ease-plate) both;
+  }
+
+  /* Desenho da linha, como um traço de nanquim sendo puxado */
+  @keyframes rule-draw {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+  }
+
+  .rule-draw {
+    transform-origin: left center;
+    animation: rule-draw 1.1s var(--ease-plate) both;
+  }
+
+  @keyframes ping-ring {
+    0%   { transform: scale(0.6); opacity: 0.9; }
+    70%  { transform: scale(2.6); opacity: 0; }
+    100% { transform: scale(2.6); opacity: 0; }
+  }
+
+  .ping-ring::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    border: 1px solid var(--seal);
+    animation: ping-ring 2.4s var(--ease-chart) infinite;
+  }
+
+  /* Deriva lenta da bússola */
+  @keyframes compass-drift {
+    0%, 100% { transform: rotate(-2.5deg); }
+    50%      { transform: rotate(2.5deg); }
+  }
+
+  .compass-drift { animation: compass-drift 9s ease-in-out infinite; }
+
+  /* ------------------------------------------------------------
+     10. FAIXA DE NAÇÕES (deriva presa ao scroll)
+     ------------------------------------------------------------ */
+
+  .drift-track {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+  }
+
+  /* ------------------------------------------------------------
+     10B. FOLHA 01 — O GLOBO EM VÍDEO
+     ------------------------------------------------------------ */
+
+  /* A folha 01 é sempre noite: o vídeo é escuro nos dois temas, então os
+     tokens de tinta são reescritos aqui, em vez de espalhar cor por classe. */
+  .hero-dark {
+    --ink:       #F2EDE0;
+    --ink-2:     #C6CCD4;
+    --ink-3:     #97A0AB;
+    --ink-4:     #6C757F;
+    --rule:      rgb(242 237 224 / 0.24);
+    --rule-soft: rgb(242 237 224 / 0.10);
+    --seal:      #E2603C;
+    --seal-ink:  #0A0E13;
+
+    /* Os utilitários do Tailwind leem os tokens de @theme, que já foram
+       resolvidos na raiz — então a troca precisa ser feita nos dois nomes. */
+    --color-ink:       var(--ink);
+    --color-ink-2:     var(--ink-2);
+    --color-ink-3:     var(--ink-3);
+    --color-ink-4:     var(--ink-4);
+    --color-rule:      var(--rule);
+    --color-rule-soft: var(--rule-soft);
+    --color-seal:      var(--seal);
+
+    color: var(--ink);
+  }
+
+  /* "Bem grande": o globo estoura a folha, e o corte de baixo leva junto a
+     assinatura queimada no vídeo. */
+  .hero-globe {
+    object-fit: cover;
+    transform: scale(1.55) translateY(-7%);
+    transform-origin: 50% 40%;
+  }
+
+  @media (min-width: 768px) {
+    .hero-globe { transform: scale(1.34) translateY(-6%); }
+  }
+
+  /* Véu: o globo continua legível, mas pesa menos que o título. */
+  .hero-veil {
+    background:
+      radial-gradient(
+        118% 82% at 50% 40%,
+        rgb(4 8 12 / 0.28) 0%,
+        rgb(4 8 12 / 0.60) 56%,
+        rgb(4 8 12 / 0.88) 100%
+      ),
+      linear-gradient(
+        to bottom,
+        rgb(4 8 12 / 0.62) 0%,
+        rgb(4 8 12 / 0.22) 32%,
+        rgb(4 8 12 / 0.48) 100%
+      );
+  }
+
+  /* Barra de baixo: fecha a folha no escuro e apaga o logotipo do vídeo. */
+  .hero-hem {
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgb(4 8 12 / 0.66) 28%,
+      rgb(4 8 12 / 0.96) 62%,
+      rgb(4 8 12 / 1) 100%
+    );
+  }
+
+  /* ------------------------------------------------------------
+     11. UTILITÁRIOS
+     ------------------------------------------------------------ */
+
+  .no-bar { scrollbar-width: none; -ms-overflow-style: none; }
+  .no-bar::-webkit-scrollbar { display: none; }
+
+  .press {
+    transition: transform 0.14s var(--ease-plate), opacity 0.2s ease, border-color 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+  }
+  .press:active { transform: scale(0.975); }
 }
 
-.gps-pulse {
-  animation: gpsPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
+/* ------------------------------------------------------------
+   12. MOVIMENTO REDUZIDO
+   ------------------------------------------------------------ */
 
 /* Continuous blink / pulse animation for Em Breve */
 @keyframes blinkContinuous {
@@ -310,10 +654,7 @@ button, a {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
   }
-  .animate-marquee-infinite,
-  .animate-marquee-photos {
-    animation: none !important;
-  }
+  .drift-track { transform: none !important; }
+  html { scroll-behavior: auto; }
 }

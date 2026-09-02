@@ -5,25 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
     <title>GN - Grupo às Nações | Igreja às Nações</title>
     <meta name="description" content="Encontre um Grupo de Conexão (GN) perto de você. Uma família para pertencer." />
-    <meta name="theme-color" content="#F8F9FA" id="theme-color-meta" />
+    <meta name="theme-color" content="#EDE7DA" id="theme-color-meta" />
     <meta property="og:title" content="GN - Grupo às Nações | Igreja às Nações" />
     <meta property="og:description" content="Encontre um Grupo de Conexão (GN) perto de você. Uma família para pertencer." />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
     
     <!-- Preload Logo for instant mobile header rendering -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2314181D'/%3E%3Cpath d='M16 3 L19 16 L16 29 L13 16 Z' fill='%23EDE7DA'/%3E%3Cpath d='M3 16 L16 13 L29 16 L16 19 Z' fill='%239E2B18'/%3E%3C/svg%3E" />
     <link rel="preload" href="/white_logo_ian.png" as="image" />
 
     <!-- Instant Dark Mode Init Script (Zero Latency / No Flash) -->
     <script>
       (function() {
         try {
+          // ?tema=claro | ?tema=escuro força a folha, e fica salva.
+          const param = new URLSearchParams(location.search).get('tema');
+          if (param === 'claro') localStorage.setItem('gn_theme', 'light');
+          if (param === 'escuro') localStorage.setItem('gn_theme', 'dark');
+
           const storedTheme = localStorage.getItem('gn_theme');
           const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
           if (storedTheme === 'dark' || (!storedTheme && prefersDark)) {
             document.documentElement.classList.add('dark');
             const meta = document.getElementById('theme-color-meta');
-            if (meta) meta.setAttribute('content', '#090A0F');
+            if (meta) meta.setAttribute('content', '#070A0E');
           } else {
             document.documentElement.classList.remove('dark');
           }
