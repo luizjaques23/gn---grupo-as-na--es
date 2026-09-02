@@ -335,13 +335,7 @@ export default function App() {
           id="folha-02"
           sheet="02"
           eyebrow="Levantamento"
-          title={
-            <>
-              Um grupo pequeno,
-              <br />
-              num bairro, toda semana.
-            </>
-          }
+          title="Uma família para você pertencer."
           className="pt-28"
         >
           <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-12 items-stretch">
