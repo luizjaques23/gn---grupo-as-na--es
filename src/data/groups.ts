@@ -172,5 +172,71 @@ export const GN_GROUPS: GNGroup[] = [
       accent: "#ECC81D", // Estrela Dourada
       colors: ["#377E3F", "#FFFFFF", "#B40A2D", "#ECC81D"]
     }
+  },
+  {
+    id: "gl-1",
+    country: "Groelândia",
+    countryCode: "GL",
+    flag: "🇬🇱",
+    name: "GN Groelândia — Pré-adolescentes",
+    leader: "Zete",
+    category: "MISTO",
+    time: "Sábado — 17h00",
+    city: "Porto Velho - RO",
+    neighborhood: "Nacional",
+    zone: "Zona Norte",
+    contact: "69 99304-9688",
+    contactRaw: "5569993049688",
+    coordinates: { latitude: -8.72750, longitude: -63.90120 },
+    theme: {
+      primary: "#D00C33", // Vermelho da Groelândia
+      secondary: "#FFFFFF", // Branco
+      accent: "#D00C33", // Vermelho
+      colors: ["#D00C33", "#FFFFFF"]
+    }
+  },
+  {
+    id: "ky-1",
+    country: "Ilhas Cayman",
+    countryCode: "KY",
+    flag: "🇰🇾",
+    name: "GN Ilhas Cayman — KIDS MISTO",
+    leader: "Zete",
+    category: "MISTO",
+    time: "Quinta-feira — 19h00",
+    city: "Porto Velho - RO",
+    neighborhood: "Nacional",
+    zone: "Zona Norte",
+    contact: "69 99304-9688",
+    contactRaw: "5569993049688",
+    coordinates: { latitude: -8.72750, longitude: -63.90120 },
+    theme: {
+      primary: "#003580", // Azul das Ilhas Cayman
+      secondary: "#FFFFFF", // Branco
+      accent: "#CE1126", // Vermelho
+      colors: ["#003580", "#FFFFFF", "#CE1126"]
+    }
+  },
+  {
+    id: "hn-1",
+    country: "Honduras",
+    countryCode: "HN",
+    flag: "🇭🇳",
+    name: "GN Honduras — Jovens",
+    leader: "Zete",
+    category: "MISTO",
+    time: "Sábado — 16h00",
+    city: "Porto Velho - RO",
+    neighborhood: "Nacional",
+    zone: "Zona Norte",
+    contact: "69 99304-9688",
+    contactRaw: "5569993049688",
+    coordinates: { latitude: -8.72750, longitude: -63.90120 },
+    theme: {
+      primary: "#0051A5", // Azul de Honduras
+      secondary: "#FFFFFF", // Branco
+      accent: "#0051A5", // Azul
+      colors: ["#0051A5", "#FFFFFF", "#0051A5"]
+    }
   }
 ];

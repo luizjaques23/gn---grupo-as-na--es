@@ -27,6 +27,14 @@ import GroupCard from './components/GroupCard';
 import { BgradientAnim } from '@/components/ui/soft-gradient-background-animation';
 import { CHRISTIAN_GALLERY_PHOTOS } from '@/components/ui/demo';
 
+// Smooth section entrance animation config
+const sectionAnim = {
+  initial: { opacity: 0, y: 30 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: "-60px" as const },
+  transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const }
+};
+
 export default function App() {
   // Theme State (Light / Dark Mode)
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
@@ -243,11 +251,13 @@ export default function App() {
 
       {/* Top Floating Dark/Light Toggle Bar */}
       <div className="relative z-20 max-w-5xl mx-auto px-6 pt-4 flex justify-end items-center">
-        <button
+        <motion.button
           type="button"
           onClick={toggleTheme}
           aria-label={theme === 'dark' ? "Ativar Modo Claro" : "Ativar Modo Escuro"}
-          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 dark:bg-zinc-900/80 border border-black/10 dark:border-white/15 text-xs font-semibold text-zinc-800 dark:text-zinc-200 shadow-xs hover:scale-105 active:scale-95 transition-all backdrop-blur-md cursor-pointer"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 dark:bg-zinc-900/80 border border-black/10 dark:border-white/15 text-xs font-semibold text-zinc-800 dark:text-zinc-200 shadow-sm hover:shadow-md transition-all backdrop-blur-md cursor-pointer"
+          whileTap={{ scale: 0.92 }}
+          whileHover={{ scale: 1.03 }}
         >
           {theme === 'dark' ? (
             <>
@@ -260,12 +270,23 @@ export default function App() {
               <span className="text-[11px] font-bold">Modo Escuro</span>
             </>
           )}
-        </button>
+        </motion.button>
       </div>
 
       {/* Hero Header Section */}
-      <header id="app-header" className="relative z-10 px-6 md:px-12 pt-4 pb-6 text-center border-b border-black/5 dark:border-white/5 max-w-5xl mx-auto flex flex-col items-center">
-        <div className="bg-gradient-to-r from-purple-600 via-blue-600 to-emerald-500 p-3 px-6 rounded-2xl border border-white/20 shadow-md inline-flex items-center justify-center mb-3 transition-transform hover:scale-105">
+      <motion.header 
+        id="app-header" 
+        className="relative z-10 px-6 md:px-12 pt-4 pb-6 text-center border-b border-black/5 dark:border-white/5 max-w-5xl mx-auto flex flex-col items-center"
+        initial={{ opacity: 0, y: -15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <motion.div 
+          className="bg-gradient-to-r from-purple-600 via-blue-600 to-emerald-500 p-3 px-6 rounded-2xl border border-white/20 shadow-lg inline-flex items-center justify-center mb-3"
+          whileHover={{ scale: 1.05, rotate: -1 }}
+          whileTap={{ scale: 0.97 }}
+          transition={{ type: "spring", stiffness: 400, damping: 15 }}
+        >
           <img 
             src="/white_logo_ian.png" 
             alt="Igreja às Nações Logo" 
@@ -273,38 +294,52 @@ export default function App() {
             loading="eager"
             fetchPriority="high"
           />
-        </div>
+        </motion.div>
         <p className="text-[9px] tracking-[0.35em] font-bold text-black/50 dark:text-zinc-400 uppercase">Igreja às Nações</p>
         <p className="text-[9px] tracking-[0.35em] font-bold text-black/50 dark:text-zinc-400 uppercase mt-0.5">Supervisão Resgate · Continente das Américas</p>
-        <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mt-2.5 bg-gradient-to-r from-purple-600 via-blue-500 to-emerald-500 dark:from-purple-400 dark:via-blue-400 dark:to-emerald-400 bg-clip-text text-transparent">
+        <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mt-2.5 bg-gradient-to-r from-purple-600 via-blue-500 to-emerald-500 dark:from-purple-400 dark:via-blue-400 dark:to-emerald-400 bg-clip-text text-transparent gradient-shimmer">
           Grupo às Nações — GN
         </h1>
-      </header>
+      </motion.header>
 
       {/* Global Bible Verse Ticker */}
-      <div className="max-w-5xl mx-auto px-6 md:px-12 mt-4 relative z-10">
-        <div className="border border-black/[0.06] dark:border-white/[0.08] bg-white/60 dark:bg-[#12131C]/60 backdrop-blur-md rounded-2xl overflow-hidden shadow-xs">
+      <motion.div 
+        className="max-w-5xl mx-auto px-6 md:px-12 mt-4 relative z-10"
+        {...sectionAnim}
+      >
+        <div className="border border-black/[0.06] dark:border-white/[0.08] bg-white/60 dark:bg-[#12131C]/60 backdrop-blur-md rounded-2xl overflow-hidden shadow-sm">
           <BibleVerseTicker />
         </div>
-      </div>
+      </motion.div>
 
       {/* Main Container */}
       <main className="max-w-5xl mx-auto px-6 md:px-12 py-8 relative z-10">
 
         {/* Explicação e Importância sobre GN */}
-        <section className="mb-10 max-w-4xl mx-auto space-y-4 text-left">
+        <motion.section 
+          className="mb-10 max-w-4xl mx-auto space-y-4 text-left"
+          {...sectionAnim}
+        >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-            <div className="bg-white dark:bg-[#12131C] p-6 rounded-2xl border border-black/[0.06] dark:border-white/[0.08] shadow-xs space-y-2.5 transition-colors">
+            <motion.div 
+              className="premium-card bg-white/90 dark:bg-[#12131C]/90 glass-card p-6 rounded-2xl border border-black/[0.06] dark:border-white/[0.08] shadow-sm space-y-2.5 transition-colors"
+              whileHover={{ y: -2 }}
+              transition={{ duration: 0.2 }}
+            >
               <h3 className="text-xs font-bold text-black dark:text-white uppercase tracking-widest flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                 O que é um GN?
               </h3>
               <p className="text-xs md:text-sm text-black/75 dark:text-zinc-300 leading-relaxed">
-                <strong className="text-black dark:text-white font-semibold">GN significa “Grupo às Nações”</strong>. São grupos de adolescentes e jovens que se reúnem semanalmente nos bairros e regiões de Porto Velho para compartilhar a Palavra de Deus, fortalecer a comunhão, orar, louvar e construir amizades verdadeiras.
+                <strong className="text-black dark:text-white font-semibold">GN significa "Grupo às Nações"</strong>. São grupos de adolescentes e jovens que se reúnem semanalmente nos bairros e regiões de Porto Velho para compartilhar a Palavra de Deus, fortalecer a comunhão, orar, louvar e construir amizades verdadeiras.
               </p>
-            </div>
+            </motion.div>
 
-            <div className="bg-white dark:bg-[#12131C] p-6 rounded-2xl border border-black/[0.06] dark:border-white/[0.08] shadow-xs space-y-2.5 transition-colors">
+            <motion.div 
+              className="premium-card bg-white/90 dark:bg-[#12131C]/90 glass-card p-6 rounded-2xl border border-black/[0.06] dark:border-white/[0.08] shadow-sm space-y-2.5 transition-colors"
+              whileHover={{ y: -2 }}
+              transition={{ duration: 0.2 }}
+            >
               <h3 className="text-xs font-bold text-black dark:text-white uppercase tracking-widest flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-pink-500 animate-pulse" />
                 Qual a importância do GN?
@@ -312,12 +347,18 @@ export default function App() {
               <p className="text-xs md:text-sm text-black/75 dark:text-zinc-300 leading-relaxed">
                 Os GNs possuem um papel estratégico no crescimento espiritual e na integração dos participantes na igreja. Eles permitem um acompanhamento próximo, cuidado pastoral, fortalecimento da fé e evangelismo com propósito.
               </p>
-            </div>
+            </motion.div>
           </div>
-        </section>
+        </motion.section>
+
+        {/* Section Divider */}
+        <div className="section-divider my-10 max-w-xs mx-auto" />
 
         {/* Action Call for Nearest GN */}
-        <section className="mb-10 text-center max-w-3xl mx-auto space-y-4">
+        <motion.section 
+          className="mb-10 text-center max-w-3xl mx-auto space-y-4"
+          {...sectionAnim}
+        >
           <div className="space-y-1.5">
             <p className="text-[10px] tracking-[0.25em] font-bold text-black/50 dark:text-zinc-400 uppercase">Encontre um GN perto de você</p>
             <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">
@@ -329,16 +370,18 @@ export default function App() {
           </div>
 
           <div className="pt-2 flex justify-center">
-            <button
+            <motion.button
               type="button"
               id="btn-get-location"
               disabled={isLocating}
               onClick={handleRequestLocation}
-              className="inline-flex items-center justify-center gap-2.5 text-xs font-bold tracking-widest uppercase px-8 py-3.5 bg-black dark:bg-white text-white dark:text-black hover:bg-zinc-800 dark:hover:bg-zinc-100 rounded-full shadow-md hover:shadow-lg active:scale-95 transition-all disabled:opacity-50 cursor-pointer border border-black/5"
+              className="premium-btn inline-flex items-center justify-center gap-2.5 text-xs font-bold tracking-widest uppercase px-8 py-4 bg-black dark:bg-white text-white dark:text-black hover:bg-zinc-800 dark:hover:bg-zinc-100 rounded-full shadow-lg hover:shadow-xl disabled:opacity-50 cursor-pointer border border-black/5"
+              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.03 }}
             >
-              <span className="text-red-500 animate-bounce">📍</span>
+              <span className={`text-red-500 ${isLocating ? '' : 'gps-pulse'} inline-block`}>📍</span>
               {isLocating ? 'Obtendo GPS...' : 'Localizar via GPS'}
-            </button>
+            </motion.button>
           </div>
 
           {/* Geolocation feedback */}
@@ -365,43 +408,57 @@ export default function App() {
               </motion.div>
             )}
           </AnimatePresence>
-        </section>
+        </motion.section>
 
         {/* Navigation Switch between Wizard Mode and Catalog Mode */}
-        <div className="flex justify-center mb-8">
-          <div className="bg-black/[0.04] dark:bg-white/[0.06] p-1 rounded-full inline-flex gap-1 border border-black/5 dark:border-white/10">
-            <button
+        <motion.div 
+          className="flex justify-center mb-8"
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
+        >
+          <div className="bg-black/[0.04] dark:bg-white/[0.06] p-1.5 rounded-full inline-flex gap-1 border border-black/5 dark:border-white/10 shadow-sm">
+            <motion.button
               type="button"
               id="switch-mode-wizard"
               onClick={() => setViewMode('wizard')}
               className={`px-5 py-2.5 rounded-full font-bold text-xs tracking-wider uppercase transition-all flex items-center gap-2 cursor-pointer ${
                 viewMode === 'wizard'
-                  ? 'bg-black text-white dark:bg-white dark:text-black shadow-xs'
+                  ? 'bg-black text-white dark:bg-white dark:text-black shadow-md'
                   : 'text-black/60 dark:text-zinc-400 hover:text-black dark:hover:text-white'
               }`}
+              whileTap={{ scale: 0.95 }}
             >
               <Compass className="w-3.5 h-3.5" />
               Descoberta Guiada
-            </button>
-            <button
+            </motion.button>
+            <motion.button
               type="button"
               id="switch-mode-catalog"
               onClick={() => setViewMode('catalog')}
               className={`px-5 py-2.5 rounded-full font-bold text-xs tracking-wider uppercase transition-all flex items-center gap-2 cursor-pointer ${
                 viewMode === 'catalog'
-                  ? 'bg-black text-white dark:bg-white dark:text-black shadow-xs'
+                  ? 'bg-black text-white dark:bg-white dark:text-black shadow-md'
                   : 'text-black/60 dark:text-zinc-400 hover:text-black dark:hover:text-white'
               }`}
+              whileTap={{ scale: 0.95 }}
             >
               <Search className="w-3.5 h-3.5" />
               Catálogo Completo
-            </button>
+            </motion.button>
           </div>
-        </div>
+        </motion.div>
 
         {/* VIEW 1: DISCOVERY WIZARD (DEFAULT) */}
         {viewMode === 'wizard' && (
-          <section id="wizard-section" className="space-y-6 bg-white dark:bg-[#12131C] p-6 md:p-8 rounded-2xl border border-black/[0.06] dark:border-white/[0.08] shadow-xs transition-colors">
+          <motion.section 
+            id="wizard-section" 
+            className="space-y-6 bg-white/90 dark:bg-[#12131C]/90 glass-card p-6 md:p-8 rounded-2xl border border-black/[0.06] dark:border-white/[0.08] shadow-sm transition-colors"
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.35 }}
+          >
             <div className="text-center space-y-1.5">
               <span className="text-[9px] font-bold tracking-[0.3em] text-black/40 dark:text-zinc-400 uppercase">Ache seu grupo</span>
               <h2 className="text-xl font-bold tracking-tight text-zinc-900 dark:text-white">
@@ -414,9 +471,14 @@ export default function App() {
 
             {/* Stepper Progress Bar */}
             <div className="flex items-center justify-center gap-3 max-w-xs mx-auto py-1">
-              <div className={`flex-1 h-1 rounded-full transition-colors ${step >= 1 ? 'bg-black dark:bg-white' : 'bg-black/10 dark:bg-white/15'}`} />
-              <div className={`flex-1 h-1 rounded-full transition-colors ${step >= 2 ? 'bg-black dark:bg-white' : 'bg-black/10 dark:bg-white/15'}`} />
-              <div className={`flex-1 h-1 rounded-full transition-colors ${step >= 3 ? 'bg-black dark:bg-white' : 'bg-black/10 dark:bg-white/15'}`} />
+              {[1, 2, 3].map((s) => (
+                <motion.div 
+                  key={s}
+                  className={`flex-1 h-1.5 rounded-full transition-colors ${step >= s ? 'bg-black dark:bg-white' : 'bg-black/10 dark:bg-white/15'}`}
+                  animate={{ scaleX: step >= s ? 1 : 0.85 }}
+                  transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                />
+              ))}
             </div>
 
             <AnimatePresence mode="wait">
@@ -424,9 +486,10 @@ export default function App() {
               {step === 1 && (
                 <motion.div
                   key="step-1"
-                  initial={{ opacity: 0, x: -10 }}
+                  initial={{ opacity: 0, x: -15 }}
                   animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 10 }}
+                  exit={{ opacity: 0, x: 15 }}
+                  transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                   className="space-y-5"
                 >
                   <h3 className="text-center text-xs font-bold uppercase tracking-wider text-black/70 dark:text-zinc-300">
@@ -435,61 +498,69 @@ export default function App() {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 max-w-4xl mx-auto">
                     {/* MENINAS */}
-                    <button
+                    <motion.button
                       type="button"
                       id="wizard-cat-meninas"
                       onClick={() => selectWizardCategory('MENINAS')}
-                      className="group py-6 px-3 border border-pink-500/20 dark:border-pink-500/30 bg-pink-500/5 dark:bg-pink-950/20 text-pink-600 dark:text-pink-300 rounded-2xl hover:bg-pink-500/10 dark:hover:bg-pink-950/40 transition-all flex flex-col items-center justify-center gap-2 active:scale-95 cursor-pointer shadow-2xs"
+                      className="group py-6 px-3 border border-pink-500/20 dark:border-pink-500/30 bg-pink-500/5 dark:bg-pink-950/20 text-pink-600 dark:text-pink-300 rounded-2xl hover:bg-pink-500/10 dark:hover:bg-pink-950/40 transition-all flex flex-col items-center justify-center gap-2 cursor-pointer shadow-sm"
+                      whileTap={{ scale: 0.95 }}
+                      whileHover={{ y: -3 }}
                     >
-                      <span className="w-2.5 h-2.5 rounded-full bg-pink-500" />
+                      <span className="text-xl">👧</span>
                       <span className="text-xs font-bold tracking-[0.2em] uppercase">MENINAS</span>
                       <span className="text-[10px] text-black/50 dark:text-zinc-400 font-medium">Círculo Feminino</span>
-                    </button>
+                    </motion.button>
 
                     {/* MENINOS */}
-                    <button
+                    <motion.button
                       type="button"
                       id="wizard-cat-meninos"
                       onClick={() => selectWizardCategory('MENINOS')}
-                      className="group py-6 px-3 border border-blue-500/20 dark:border-blue-500/30 bg-blue-500/5 dark:bg-blue-950/20 text-blue-600 dark:text-blue-300 rounded-2xl hover:bg-blue-500/10 dark:hover:bg-blue-950/40 transition-all flex flex-col items-center justify-center gap-2 active:scale-95 cursor-pointer shadow-2xs"
+                      className="group py-6 px-3 border border-blue-500/20 dark:border-blue-500/30 bg-blue-500/5 dark:bg-blue-950/20 text-blue-600 dark:text-blue-300 rounded-2xl hover:bg-blue-500/10 dark:hover:bg-blue-950/40 transition-all flex flex-col items-center justify-center gap-2 cursor-pointer shadow-sm"
+                      whileTap={{ scale: 0.95 }}
+                      whileHover={{ y: -3 }}
                     >
-                      <span className="w-2.5 h-2.5 rounded-full bg-blue-500" />
+                      <span className="text-xl">👦</span>
                       <span className="text-xs font-bold tracking-[0.2em] uppercase">MENINOS</span>
                       <span className="text-[10px] text-black/50 dark:text-zinc-400 font-medium">Círculo Masculino</span>
-                    </button>
+                    </motion.button>
 
                     {/* MISTO */}
-                    <button
+                    <motion.button
                       type="button"
                       id="wizard-cat-misto"
                       onClick={() => selectWizardCategory('MISTO')}
-                      className="group py-6 px-3 border border-purple-500/20 dark:border-purple-500/30 bg-purple-500/5 dark:bg-purple-950/20 text-purple-600 dark:text-purple-300 rounded-2xl hover:bg-purple-500/10 dark:hover:bg-purple-950/40 transition-all flex flex-col items-center justify-center gap-2 active:scale-95 cursor-pointer shadow-2xs"
+                      className="group py-6 px-3 border border-purple-500/20 dark:border-purple-500/30 bg-purple-500/5 dark:bg-purple-950/20 text-purple-600 dark:text-purple-300 rounded-2xl hover:bg-purple-500/10 dark:hover:bg-purple-950/40 transition-all flex flex-col items-center justify-center gap-2 cursor-pointer shadow-sm"
+                      whileTap={{ scale: 0.95 }}
+                      whileHover={{ y: -3 }}
                     >
-                      <span className="w-2.5 h-2.5 rounded-full bg-purple-500" />
+                      <span className="text-xl">🤝</span>
                       <span className="text-xs font-bold tracking-[0.2em] uppercase">MISTO</span>
                       <span className="text-[10px] text-black/50 dark:text-zinc-400 font-medium">Comunhão Geral</span>
-                    </button>
+                    </motion.button>
 
                     {/* KIDS */}
-                    <button
+                    <motion.button
                       type="button"
                       id="wizard-cat-kids"
                       onClick={() => selectWizardCategory('KIDS')}
-                      className="group py-6 px-3 border border-amber-500/20 dark:border-amber-500/30 bg-amber-500/5 dark:bg-amber-950/20 text-amber-600 dark:text-amber-300 rounded-2xl hover:bg-amber-500/10 dark:hover:bg-amber-950/40 transition-all flex flex-col items-center justify-center gap-2 active:scale-95 cursor-pointer shadow-2xs"
+                      className="group py-6 px-3 border border-amber-500/20 dark:border-amber-500/30 bg-amber-500/5 dark:bg-amber-950/20 text-amber-600 dark:text-amber-300 rounded-2xl hover:bg-amber-500/10 dark:hover:bg-amber-950/40 transition-all flex flex-col items-center justify-center gap-2 cursor-pointer shadow-sm"
+                      whileTap={{ scale: 0.95 }}
+                      whileHover={{ y: -3 }}
                     >
-                      <span className="w-2.5 h-2.5 rounded-full bg-amber-500" />
+                      <span className="text-xl">🧒</span>
                       <span className="text-xs font-bold tracking-[0.2em] uppercase">KIDS</span>
                       <span className="text-[10px] text-black/50 dark:text-zinc-400 font-medium">Crianças</span>
-                    </button>
+                    </motion.button>
 
                     {/* JOVEM - EM BREVE */}
                     <div
-                      className="relative py-6 px-3 border border-cyan-500/25 dark:border-cyan-500/30 bg-cyan-500/5 dark:bg-cyan-950/20 text-cyan-600 dark:text-cyan-300 rounded-2xl flex flex-col items-center justify-center gap-2 select-none"
+                      className="relative py-6 px-3 border border-cyan-500/25 dark:border-cyan-500/30 bg-cyan-500/5 dark:bg-cyan-950/20 text-cyan-600 dark:text-cyan-300 rounded-2xl flex flex-col items-center justify-center gap-2 select-none opacity-80"
                     >
                       <span className="absolute top-2 right-2 text-[8px] font-extrabold uppercase tracking-widest bg-cyan-600 text-white px-2 py-0.5 rounded-full">
                         Em breve
                       </span>
-                      <span className="w-2.5 h-2.5 rounded-full bg-cyan-500" />
+                      <span className="text-xl">🔥</span>
                       <span className="text-xs font-bold tracking-[0.2em] uppercase">JOVEM</span>
                       <span className="text-[10px] text-black/50 dark:text-zinc-400 font-medium">Jovens</span>
                     </div>
@@ -501,16 +572,17 @@ export default function App() {
               {step === 2 && (
                 <motion.div
                   key="step-2"
-                  initial={{ opacity: 0, x: -10 }}
+                  initial={{ opacity: 0, x: -15 }}
                   animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 10 }}
+                  exit={{ opacity: 0, x: 15 }}
+                  transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                   className="space-y-5"
                 >
                   <div className="flex justify-between items-center max-w-2xl mx-auto">
                     <button
                       type="button"
                       onClick={() => setStep(1)}
-                      className="text-[10px] font-bold uppercase tracking-widest text-black/50 dark:text-zinc-400 hover:text-black dark:hover:text-white flex items-center gap-1 cursor-pointer"
+                      className="text-[10px] font-bold uppercase tracking-widest text-black/50 dark:text-zinc-400 hover:text-black dark:hover:text-white flex items-center gap-1 cursor-pointer transition-colors"
                     >
                       ← Voltar pro Tipo
                     </button>
@@ -523,21 +595,26 @@ export default function App() {
                     2. Escolha o país onde você deseja se conectar
                   </h3>
 
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 max-w-4xl mx-auto">
-                    {wizardFilteredCountries.map((c) => {
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 max-w-4xl mx-auto">
+                    {wizardFilteredCountries.map((c, idx) => {
                       const count = GN_GROUPS.filter(
                         (g) => g.country === c.name && g.category === selectedCategory
                       ).length;
 
                       return (
-                        <button
+                        <motion.button
                           key={c.name}
                           type="button"
                           id={`wizard-country-${c.code}`}
                           onClick={() => selectWizardCountry(c.name)}
-                          className="group bg-white dark:bg-[#181926] rounded-2xl border border-black/[0.06] dark:border-white/[0.08] p-4 text-center transition-all hover:border-black/20 dark:hover:border-white/20 active:scale-95 cursor-pointer shadow-xs"
+                          className="flag-shimmer group bg-white/90 dark:bg-[#181926]/90 glass-card rounded-2xl border border-black/[0.06] dark:border-white/[0.08] p-4 text-center transition-all hover:border-black/20 dark:hover:border-white/20 cursor-pointer shadow-sm hover:shadow-md"
+                          whileTap={{ scale: 0.95 }}
+                          whileHover={{ y: -3 }}
+                          initial={{ opacity: 0, y: 12 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: idx * 0.04, duration: 0.3 }}
                         >
-                          <span className="text-3xl block mb-2 group-hover:scale-110 transition-transform">
+                          <span className="text-3xl block mb-2 flag-emoji transition-transform">
                             {c.flag}
                           </span>
                           <span className="block font-semibold text-xs text-zinc-900 dark:text-white tracking-tight">
@@ -546,7 +623,7 @@ export default function App() {
                           <span className="inline-block mt-2 px-2.5 py-0.5 rounded-full bg-black/[0.03] dark:bg-white/[0.06] text-[9px] font-bold text-black/50 dark:text-zinc-400 uppercase tracking-widest">
                             {count} {count === 1 ? 'grupo' : 'grupos'}
                           </span>
-                        </button>
+                        </motion.button>
                       );
                     })}
                   </div>
@@ -557,9 +634,10 @@ export default function App() {
               {step === 3 && (
                 <motion.div
                   key="step-3"
-                  initial={{ opacity: 0, x: -10 }}
+                  initial={{ opacity: 0, x: -15 }}
                   animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 10 }}
+                  exit={{ opacity: 0, x: 15 }}
+                  transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                   className="space-y-5"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 max-w-2xl mx-auto pb-4 border-b border-black/[0.04] dark:border-white/[0.06]">
@@ -567,7 +645,7 @@ export default function App() {
                       <button
                         type="button"
                         onClick={() => setStep(2)}
-                        className="text-[10px] font-bold uppercase tracking-widest text-black/50 dark:text-zinc-400 hover:text-black dark:hover:text-white cursor-pointer"
+                        className="text-[10px] font-bold uppercase tracking-widest text-black/50 dark:text-zinc-400 hover:text-black dark:hover:text-white cursor-pointer transition-colors"
                       >
                         ← Voltar para Países
                       </button>
@@ -597,7 +675,7 @@ export default function App() {
 
                   {wizardFinalGroups.length > 0 ? (
                     <div className="space-y-4 max-w-2xl mx-auto">
-                      {wizardFinalGroups.map((group) => (
+                      {wizardFinalGroups.map((group, idx) => (
                         <GroupCard
                           key={group.id}
                           group={group}
@@ -606,6 +684,7 @@ export default function App() {
                           onToggle={() =>
                             setExpandedCardId(expandedCardId === group.id ? null : group.id)
                           }
+                          index={idx}
                         />
                       ))}
                     </div>
@@ -616,24 +695,31 @@ export default function App() {
                       <p className="text-xs text-black/60 dark:text-zinc-400 leading-relaxed">
                         Tente mudar a categoria do grupo ou explore outras nações no catálogo completo.
                       </p>
-                      <button
+                      <motion.button
                         type="button"
                         onClick={resetWizard}
                         className="mt-2 bg-black dark:bg-white text-white dark:text-black hover:bg-zinc-800 dark:hover:bg-zinc-200 px-5 py-2.5 rounded-xl text-[10px] font-bold tracking-widest uppercase transition-colors cursor-pointer"
+                        whileTap={{ scale: 0.95 }}
                       >
                         Ver Outros Grupos
-                      </button>
+                      </motion.button>
                     </div>
                   )}
                 </motion.div>
               )}
             </AnimatePresence>
-          </section>
+          </motion.section>
         )}
 
         {/* VIEW 2: COMPLETE INTERACTIVE CATALOG */}
         {viewMode === 'catalog' && (
-          <section id="catalog-section" className="space-y-6 bg-white dark:bg-[#12131C] p-6 md:p-8 rounded-2xl border border-black/[0.06] dark:border-white/[0.08] shadow-xs transition-colors">
+          <motion.section 
+            id="catalog-section" 
+            className="space-y-6 bg-white/90 dark:bg-[#12131C]/90 glass-card p-6 md:p-8 rounded-2xl border border-black/[0.06] dark:border-white/[0.08] shadow-sm transition-colors"
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.35 }}
+          >
             
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-black/[0.04] dark:border-white/[0.06]">
               <div>
@@ -647,7 +733,7 @@ export default function App() {
 
               {/* Reset active filters */}
               {(catalogCategory !== 'ALL' || catalogCountry !== 'ALL' || searchQuery !== '') && (
-                <button
+                <motion.button
                   type="button"
                   onClick={() => {
                     setCatalogCategory('ALL');
@@ -655,9 +741,12 @@ export default function App() {
                     setSearchQuery('');
                   }}
                   className="text-[10px] font-bold text-black dark:text-white hover:underline flex items-center gap-1 bg-black/[0.03] dark:bg-white/[0.06] px-3 py-1.5 rounded-full border border-black/5 dark:border-white/10 uppercase tracking-wider cursor-pointer"
+                  whileTap={{ scale: 0.95 }}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
                 >
                   <RotateCcw className="w-3.5 h-3.5" /> Limpar filtros
-                </button>
+                </motion.button>
               )}
             </div>
 
@@ -671,7 +760,7 @@ export default function App() {
                   placeholder="Buscar líder, cidade, bairro..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-black/[0.02] dark:bg-white/[0.04] border border-black/10 dark:border-white/15 rounded-xl pl-9 pr-4 py-2.5 text-xs text-zinc-900 dark:text-zinc-100 focus:outline-hidden focus:border-purple-500 placeholder:text-black/40 dark:placeholder:text-zinc-500 font-medium"
+                  className="w-full bg-black/[0.02] dark:bg-white/[0.04] border border-black/10 dark:border-white/15 rounded-xl pl-9 pr-4 py-3 text-xs text-zinc-900 dark:text-zinc-100 focus:outline-hidden focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 placeholder:text-black/40 dark:placeholder:text-zinc-500 font-medium transition-all"
                 />
               </div>
 
@@ -681,7 +770,7 @@ export default function App() {
                 <select
                   value={catalogCategory}
                   onChange={(e) => setCatalogCategory(e.target.value as any)}
-                  className="w-full bg-black/[0.02] dark:bg-zinc-900 border border-black/10 dark:border-white/15 rounded-xl pl-9 pr-4 py-2.5 text-xs text-zinc-900 dark:text-zinc-100 appearance-none focus:outline-hidden focus:border-purple-500 font-medium cursor-pointer"
+                  className="w-full bg-black/[0.02] dark:bg-zinc-900 border border-black/10 dark:border-white/15 rounded-xl pl-9 pr-4 py-3 text-xs text-zinc-900 dark:text-zinc-100 appearance-none focus:outline-hidden focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 font-medium cursor-pointer transition-all"
                 >
                   <option value="ALL" className="dark:bg-zinc-900">Todas as Categorias</option>
                   <option value="MENINAS" className="dark:bg-zinc-900">MENINAS</option>
@@ -697,7 +786,7 @@ export default function App() {
                 <select
                   value={catalogCountry}
                   onChange={(e) => setCatalogCountry(e.target.value)}
-                  className="w-full bg-black/[0.02] dark:bg-zinc-900 border border-black/10 dark:border-white/15 rounded-xl pl-9 pr-4 py-2.5 text-xs text-zinc-900 dark:text-zinc-100 appearance-none focus:outline-hidden focus:border-purple-500 font-medium cursor-pointer"
+                  className="w-full bg-black/[0.02] dark:bg-zinc-900 border border-black/10 dark:border-white/15 rounded-xl pl-9 pr-4 py-3 text-xs text-zinc-900 dark:text-zinc-100 appearance-none focus:outline-hidden focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 font-medium cursor-pointer transition-all"
                 >
                   <option value="ALL" className="dark:bg-zinc-900">Todos os Países</option>
                   {countriesList.map((c) => (
@@ -718,7 +807,7 @@ export default function App() {
             {/* Catalog Group List */}
             {filteredCatalogGroups.length > 0 ? (
               <div className="space-y-4">
-                {filteredCatalogGroups.map((group) => (
+                {filteredCatalogGroups.map((group, idx) => (
                   <GroupCard
                     key={group.id}
                     group={group}
@@ -727,6 +816,7 @@ export default function App() {
                     onToggle={() =>
                       setExpandedCardId(expandedCardId === group.id ? null : group.id)
                     }
+                    index={idx}
                   />
                 ))}
               </div>
@@ -737,7 +827,7 @@ export default function App() {
                 <p className="text-xs text-black/60 dark:text-zinc-400 max-w-xs mx-auto leading-relaxed">
                   Tente remover termos de pesquisa ou resetar os filtros selecionados para explorar outros grupos de conexão.
                 </p>
-                <button
+                <motion.button
                   type="button"
                   onClick={() => {
                     setCatalogCategory('ALL');
@@ -745,16 +835,24 @@ export default function App() {
                     setSearchQuery('');
                   }}
                   className="bg-black dark:bg-white text-white dark:text-black hover:bg-zinc-800 dark:hover:bg-zinc-200 px-5 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-colors cursor-pointer"
+                  whileTap={{ scale: 0.95 }}
                 >
                   Ver Todos os GNs
-                </button>
+                </motion.button>
               </div>
             )}
-          </section>
+          </motion.section>
         )}
 
+        {/* Section Divider */}
+        <div className="section-divider my-14 max-w-xs mx-auto" />
+
         {/* NOSSOS GNs Flag Carousel Section (Auto Infinite Marquee) */}
-        <section id="our-nations" className="mt-14 space-y-5">
+        <motion.section 
+          id="our-nations" 
+          className="mt-14 space-y-5"
+          {...sectionAnim}
+        >
           <div className="text-center space-y-1">
             <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-black/50 dark:text-zinc-400">
               Nações Representadas
@@ -795,9 +893,9 @@ export default function App() {
                     style={{
                       borderTopColor: firstGroup?.theme?.primary || '#3b82f6'
                     }}
-                    className="w-[180px] sm:w-[200px] flex-shrink-0 bg-white dark:bg-[#12131C] rounded-2xl p-4 border border-black/[0.06] dark:border-white/[0.08] border-t-4 flex flex-col items-center text-center gap-2 transition-all hover:border-black/20 dark:hover:border-white/20 hover:shadow-md hover:-translate-y-0.5 active:scale-95 group cursor-pointer relative overflow-hidden select-none"
+                    className="flag-shimmer w-[180px] sm:w-[200px] flex-shrink-0 bg-white/90 dark:bg-[#12131C]/90 glass-card rounded-2xl p-4 border border-black/[0.06] dark:border-white/[0.08] border-t-4 flex flex-col items-center text-center gap-2 transition-all hover:border-black/20 dark:hover:border-white/20 hover:shadow-lg hover:-translate-y-1 active:scale-95 group cursor-pointer relative overflow-hidden select-none"
                   >
-                    <div className="w-12 h-12 rounded-2xl bg-black/[0.03] dark:bg-white/[0.06] flex items-center justify-center text-3xl group-hover:scale-110 transition-transform shadow-2xs">
+                    <div className="w-12 h-12 rounded-2xl bg-black/[0.03] dark:bg-white/[0.06] flex items-center justify-center text-3xl flag-emoji transition-transform shadow-sm">
                       <span aria-hidden="true">{country.flag}</span>
                     </div>
                     <div>
@@ -816,13 +914,19 @@ export default function App() {
               })}
             </div>
           </div>
-        </section>
+        </motion.section>
+
+        {/* Section Divider */}
+        <div className="section-divider my-14 max-w-xs mx-auto" />
 
         {/* Son Action Section — Optimized with Zero-Lag Smart Video Card */}
-        <section className="mt-14 mb-10 max-w-3xl mx-auto text-center space-y-5">
-          <div className="bg-gradient-to-br from-orange-500 via-amber-500 to-orange-400 p-[2px] rounded-3xl shadow-lg overflow-hidden">
-            <div className="bg-white dark:bg-[#12131C] rounded-[22px] p-6 md:p-8 space-y-4 transition-colors">
-              <h3 className="text-lg md:text-xl font-extrabold uppercase tracking-wider bg-gradient-to-r from-orange-500 via-amber-500 to-orange-400 bg-clip-text text-transparent">
+        <motion.section 
+          className="mt-14 mb-10 max-w-3xl mx-auto text-center space-y-5"
+          {...sectionAnim}
+        >
+          <div className="bg-gradient-to-br from-orange-500 via-amber-500 to-orange-400 p-[2px] rounded-3xl shadow-xl overflow-hidden">
+            <div className="bg-white/95 dark:bg-[#12131C]/95 glass-card rounded-[22px] p-6 md:p-8 space-y-4 transition-colors">
+              <h3 className="text-lg md:text-xl font-extrabold uppercase tracking-wider bg-gradient-to-r from-orange-500 via-amber-500 to-orange-400 bg-clip-text text-transparent gradient-shimmer">
                 Participe também da Son Action!
               </h3>
               <p className="text-xs md:text-sm text-black/70 dark:text-zinc-300 leading-relaxed">
@@ -837,7 +941,7 @@ export default function App() {
 
               {/* Fast Instant-Loading Video Card (Eliminates the 10s mobile freeze) */}
               <div className="pt-2 flex justify-center">
-                <div className="w-full max-w-[320px] rounded-2xl overflow-hidden shadow-md border border-orange-500/20 bg-zinc-950 text-white relative">
+                <div className="w-full max-w-[320px] rounded-2xl overflow-hidden shadow-lg border border-orange-500/20 bg-zinc-950 text-white relative">
                   {!showInstagramEmbed ? (
                     <div className="relative aspect-[9/16] bg-gradient-to-b from-zinc-900 via-zinc-950 to-black flex flex-col items-center justify-between p-6 text-center select-none overflow-hidden">
                       {/* Background thumbnail */}
@@ -865,14 +969,16 @@ export default function App() {
 
                       {/* Play Action */}
                       <div className="relative z-10 space-y-3">
-                        <button
+                        <motion.button
                           type="button"
                           onClick={() => setShowInstagramEmbed(true)}
-                          className="w-16 h-16 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 text-white flex items-center justify-center shadow-lg shadow-orange-500/30 hover:scale-110 active:scale-95 transition-all mx-auto cursor-pointer"
+                          className="w-16 h-16 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 text-white flex items-center justify-center shadow-lg shadow-orange-500/30 mx-auto cursor-pointer"
                           aria-label="Carregar e assistir vídeo no site"
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
                         >
                           <Play className="w-7 h-7 fill-white ml-1" />
-                        </button>
+                        </motion.button>
                         <div>
                           <p className="text-sm font-bold tracking-tight">Vídeo do Culto</p>
                           <p className="text-[10px] text-zinc-300">Toque para carregar a prévia</p>
@@ -913,22 +1019,31 @@ export default function App() {
                 <p className="text-xs text-black/60 dark:text-zinc-400 max-w-md mx-auto leading-relaxed">
                   Acompanhe nossos cultos, momentos, novidades e tudo o que Deus está fazendo através dessa geração.
                 </p>
-                <a
+                <motion.a
                   href="https://www.instagram.com/sonaction_/?igsi=NzZqejh0NXIxbnlp"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 hover:brightness-110 text-white font-bold text-[11px] tracking-widest uppercase px-6 py-3.5 rounded-full shadow-md active:scale-95 transition-all"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   <Instagram className="w-4 h-4" />
                   Seguir @sonaction_
-                </a>
+                </motion.a>
               </div>
             </div>
           </div>
-        </section>
+        </motion.section>
+
+        {/* Section Divider */}
+        <div className="section-divider my-14 max-w-xs mx-auto" />
 
         {/* Galeria de Fotos Cristãs & Vivência nos GNs / Son Action (Carrossel Lateral Contínuo) */}
-        <section id="galeria-fotos" className="mt-14 mb-10 space-y-5">
+        <motion.section 
+          id="galeria-fotos" 
+          className="mt-14 mb-10 space-y-5"
+          {...sectionAnim}
+        >
           <div className="text-center space-y-1 max-w-5xl mx-auto px-6">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/10 dark:bg-purple-950/40 border border-purple-500/20 text-[10px] font-bold uppercase tracking-[0.25em] text-purple-700 dark:text-purple-300 mb-1">
               <Sparkles className="w-3 h-3 text-purple-600 dark:text-purple-400" />
@@ -949,7 +1064,7 @@ export default function App() {
               {[...CHRISTIAN_GALLERY_PHOTOS, ...CHRISTIAN_GALLERY_PHOTOS, ...CHRISTIAN_GALLERY_PHOTOS, ...CHRISTIAN_GALLERY_PHOTOS].map((item, idx) => (
                 <div
                   key={`${item.title}-${idx}`}
-                  className="w-[280px] sm:w-[320px] h-[380px] sm:h-[400px] flex-shrink-0 bg-white dark:bg-[#12131C] rounded-3xl border border-black/[0.06] dark:border-white/[0.08] shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden relative group select-none flex flex-col justify-end"
+                  className="w-[280px] sm:w-[320px] h-[380px] sm:h-[400px] flex-shrink-0 bg-white dark:bg-[#12131C] rounded-3xl border border-black/[0.06] dark:border-white/[0.08] shadow-md hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden relative group select-none flex flex-col justify-end"
                 >
                   {/* Photo with smooth zoom on hover/touch */}
                   <img
@@ -988,17 +1103,17 @@ export default function App() {
               ))}
             </div>
           </div>
-        </section>
+        </motion.section>
 
       </main>
 
       {/* Elegant Footer */}
-      <footer className="bg-white dark:bg-[#0E0F16] text-zinc-500 dark:text-zinc-400 py-12 px-6 md:px-12 border-t border-black/5 dark:border-white/10 relative z-10 mt-14 transition-colors">
+      <footer className="bg-white/95 dark:bg-[#0E0F16]/95 glass-card text-zinc-500 dark:text-zinc-400 py-12 px-6 md:px-12 border-t border-black/5 dark:border-white/10 relative z-10 mt-14 transition-colors">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
           
           {/* Logo & Slogan */}
           <div className="flex flex-col sm:flex-row items-center gap-4 text-center md:text-left">
-            <div className="bg-gradient-to-r from-purple-600 via-blue-600 to-emerald-500 p-3 px-4 rounded-xl border border-white/20 shadow-xs flex items-center justify-center flex-shrink-0">
+            <div className="bg-gradient-to-r from-purple-600 via-blue-600 to-emerald-500 p-3 px-4 rounded-xl border border-white/20 shadow-md flex items-center justify-center flex-shrink-0">
               <img 
                 src="/white_logo_ian.png" 
                 alt="Igreja às Nações Logo" 
@@ -1032,7 +1147,7 @@ export default function App() {
               href="https://asnacoes.com.br/"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black/[0.03] dark:bg-white/[0.06] hover:bg-black/[0.08] dark:hover:bg-white/[0.1] text-[11px] font-bold text-zinc-800 dark:text-zinc-200 transition-all uppercase tracking-wider border border-black/10 dark:border-white/10 active:scale-95"
+              className="premium-btn inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black/[0.03] dark:bg-white/[0.06] hover:bg-black/[0.08] dark:hover:bg-white/[0.1] text-[11px] font-bold text-zinc-800 dark:text-zinc-200 transition-all uppercase tracking-wider border border-black/10 dark:border-white/10 active:scale-95"
             >
               <ExternalLink className="w-3.5 h-3.5 text-black/50 dark:text-zinc-400" />
               Site Oficial
@@ -1041,7 +1156,7 @@ export default function App() {
               href="https://www.instagram.com/igrejaasnacoes?igsi=YXppbmp4cWd6bWFu"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-purple-50 via-pink-50 to-orange-50 dark:from-purple-950/40 dark:via-pink-950/40 dark:to-orange-950/40 hover:brightness-95 text-[11px] font-bold text-pink-700 dark:text-pink-300 transition-all uppercase tracking-wider border border-pink-200/60 dark:border-pink-800/40 shadow-2xs active:scale-95"
+              className="premium-btn inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-purple-50 via-pink-50 to-orange-50 dark:from-purple-950/40 dark:via-pink-950/40 dark:to-orange-950/40 hover:brightness-95 text-[11px] font-bold text-pink-700 dark:text-pink-300 transition-all uppercase tracking-wider border border-pink-200/60 dark:border-pink-800/40 shadow-sm active:scale-95"
             >
               <Instagram className="w-3.5 h-3.5 text-pink-600 dark:text-pink-400" />
               Instagram Oficial
@@ -1050,7 +1165,7 @@ export default function App() {
               href="https://www.instagram.com/sonaction_/?igsi=NzZqejh0NXIxbnlp"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-50 dark:bg-purple-950/40 hover:bg-purple-100 dark:hover:bg-purple-900/50 text-[11px] font-bold text-purple-700 dark:text-purple-300 transition-all uppercase tracking-wider border border-purple-200/60 dark:border-purple-800/40 shadow-2xs active:scale-95"
+              className="premium-btn inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-50 dark:bg-purple-950/40 hover:bg-purple-100 dark:hover:bg-purple-900/50 text-[11px] font-bold text-purple-700 dark:text-purple-300 transition-all uppercase tracking-wider border border-purple-200/60 dark:border-purple-800/40 shadow-sm active:scale-95"
             >
               <Instagram className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
               Son Action
