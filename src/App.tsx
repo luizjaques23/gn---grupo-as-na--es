@@ -348,7 +348,7 @@ export default function App() {
               <Note
                 index="b"
                 head="Como funciona"
-                body="Cada grupo tem um embaixador com nome e telefone, um dia fixo e um bairro. Você sabe quem procurar, quando ir e onde é antes de aparecer pela primeira vez."
+                body="Em cada GN, os líderes compartilham a Palavra de Deus, e os participantes têm liberdade para dar testemunhos ou tirar dúvidas. Também há um momento dedicado à adoração com louvores e outro – geralmente ao final GN– para lanches e comunhão entre as pessoas."
               />
               <Note
                 index="c"
