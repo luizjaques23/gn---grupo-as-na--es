@@ -1,17 +1,12 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  User, 
-  Users, 
-  Clock, 
-  MapPin, 
-  ChevronDown, 
-  MapIcon,
-  Navigation,
-  MessageCircle
-} from 'lucide-react';
+import { MessageCircle, MapPin, Navigation } from 'lucide-react';
 import { GNGroup } from '../data/groups';
 import { formatDistance } from '../utils/geo';
+import { nationInk, nationInk2 } from '@/lib/nation';
+import { categoryInk } from '@/lib/category';
+import { chartEase } from './atlas/Plate';
+import Flag from './atlas/Flag';
 
 interface GroupCardProps {
   group: GNGroup;
@@ -21,332 +16,282 @@ interface GroupCardProps {
   index?: number;
 }
 
-export default function GroupCard({ group, distance, isOpen, onToggle, index = 0 }: GroupCardProps) {
-  // Category badge styling with Light & Dark mode support (clean, without emojis)
-  const getCategoryBadge = (category: string) => {
-    switch (category) {
-      case 'MENINAS':
-        return (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold tracking-widest bg-pink-500/10 text-pink-600 dark:bg-pink-950/40 dark:text-pink-300 border border-pink-500/20 dark:border-pink-500/30 uppercase">
-            <span className="w-1.5 h-1.5 rounded-full bg-pink-500" />
-            MENINAS
-          </span>
-        );
-      case 'MENINOS':
-        return (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold tracking-widest bg-blue-500/10 text-blue-600 dark:bg-blue-950/40 dark:text-blue-300 border border-blue-500/20 dark:border-blue-500/30 uppercase">
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
-            MENINOS
-          </span>
-        );
-      case 'KIDS':
-        return (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold tracking-widest bg-amber-500/10 text-amber-600 dark:bg-amber-950/40 dark:text-amber-300 border border-amber-500/20 dark:border-amber-500/30 uppercase">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
-            KIDS
-          </span>
-        );
-      case 'MISTO':
-      default:
-        return (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold tracking-widest bg-purple-500/10 text-purple-600 dark:bg-purple-950/40 dark:text-purple-300 border border-purple-500/20 dark:border-purple-500/30 uppercase">
-            <span className="w-1.5 h-1.5 rounded-full bg-purple-500" />
-            MISTO
-          </span>
-        );
-    }
-  };
+/** Como a liderança é chamada em cada tipo de grupo. */
+function leaderLabel(category: string) {
+  if (category === 'MENINAS') return 'Embaixadora';
+  if (category === 'MENINOS') return 'Embaixador';
+  return 'Embaixador(a)';
+}
 
-  // Check if this is a group containing girls and boys (MISTO)
-  const isMistoGroup = group.category === 'MISTO';
-  
-  // Determine the sub-classification / target audience (e.g. Adolescentes, Jovens, etc.)
-  const getSubAudience = () => {
-    const nameLower = group.name.toLowerCase();
-    if (nameLower.includes('pré-adolescentes') || nameLower.includes('pre-adolescentes')) {
-      return 'Pré-adolescentes';
-    }
-    if (nameLower.includes('jovens') || nameLower.includes('jovem')) {
-      return 'Jovens';
-    }
-    return 'Adolescentes';
-  };
+/** Faixa etária, deduzida do nome do grupo. */
+function audience(name: string) {
+  const n = name.toLowerCase();
+  if (n.includes('pré-adolescentes') || n.includes('pre-adolescentes')) return 'Pré-adolescentes';
+  if (n.includes('jovens') || n.includes('jovem')) return 'Jovens';
+  if (n.includes('kids')) return 'Crianças';
+  return 'Adolescentes';
+}
 
-  // Determine title for the mixed section (e.g., "KIDS MISTO" or "MISTO")
-  const getMistoHeaderTitle = () => {
-    const nameLower = group.name.toLowerCase();
-    if (nameLower.includes('kids')) {
-      return 'KIDS MISTO';
-    }
-    return 'MISTO';
-  };
+/** Coordenada em graus, minutos e segundos. */
+function dms(value: number, positive: string, negative: string) {
+  const hemisphere = value >= 0 ? positive : negative;
+  const abs = Math.abs(value);
+  const deg = Math.floor(abs);
+  const minFloat = (abs - deg) * 60;
+  const min = Math.floor(minFloat);
+  const sec = Math.round((minFloat - min) * 60);
+  return `${String(deg).padStart(2, '0')}°${String(min).padStart(2, '0')}'${String(sec).padStart(2, '0')}"${hemisphere}`;
+}
 
-  // Dynamic leader label (Embaixador/Embaixadora)
-  const getLeaderLabel = (category: string) => {
-    if (category === 'MENINAS') return 'Embaixadora';
-    if (category === 'MENINOS') return 'Embaixador';
-    return 'Embaixador(a)';
-  };
+export default function GroupCard({
+  group,
+  distance,
+  isOpen,
+  onToggle,
+  index = 0,
+}: GroupCardProps) {
+  const ink = nationInk(group.theme);
+  const ink2 = nationInk2(group.theme);
+  const sheet = `${group.countryCode}·${String(index + 1).padStart(2, '0')}`;
 
-  const handleOpenMap = (e: React.MouseEvent) => {
+  const openWhatsApp = (e: React.MouseEvent) => {
     e.stopPropagation();
-    const query = encodeURIComponent(`Bairro ${group.neighborhood}, ${group.city}`);
-    const mapUrl = `https://www.google.com/maps/search/?api=1&query=${query}`;
-    window.open(mapUrl, '_blank', 'noopener,noreferrer');
+    const text = encodeURIComponent(
+      `Olá! Gostaria de informações sobre o GN ${group.country} (${group.category}).`
+    );
+    window.open(`https://wa.me/${group.contactRaw}?text=${text}`, '_blank', 'noopener,noreferrer');
   };
 
-  const handleWhatsApp = (e: React.MouseEvent) => {
+  const openMap = (e: React.MouseEvent) => {
     e.stopPropagation();
-    const message = encodeURIComponent(`Olá! Gostaria de informações sobre o GN ${group.country} (${group.category}).`);
-    const waUrl = `https://wa.me/${group.contactRaw}?text=${message}`;
-    window.open(waUrl, '_blank', 'noopener,noreferrer');
+    // O ponto exato do grupo, não o centro do bairro: coordenada crua no
+    // `query` faz o Google Maps cravar o pino na latitude/longitude da ficha.
+    const { latitude, longitude } = group.coordinates;
+    window.open(
+      `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`,
+      '_blank',
+      'noopener,noreferrer'
+    );
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
+    <motion.article
+      data-nation={ink}
+      data-nation-2={ink2}
+      initial={{ opacity: 0, y: 22 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ 
-        duration: 0.45, 
-        ease: [0.22, 1, 0.36, 1],
-        delay: Math.min(index * 0.06, 0.3)
-      }}
+      viewport={{ once: true, margin: '-50px' }}
+      transition={{ duration: 0.7, ease: chartEase, delay: Math.min(index * 0.05, 0.25) }}
+      className="plate plate-corners group"
+      style={{ borderColor: isOpen ? ink : undefined }}
     >
-      <div
-        id={`gn-card-${group.id}`}
-        className={`premium-card relative bg-white/90 dark:bg-[#12131C]/90 glass-card rounded-2xl border border-black/[0.06] dark:border-white/[0.08] overflow-hidden ${
-          isOpen 
-            ? 'ring-2 ring-purple-500/20 dark:ring-purple-400/20 shadow-lg dark:shadow-xl' 
-            : 'shadow-sm dark:shadow-md hover:shadow-md dark:hover:shadow-lg'
-        }`}
-      >
-        {/* Absolute top country flag gradient bar */}
-        <div 
-          className="absolute top-0 left-0 w-full h-2 rounded-t-2xl" 
-          style={{ 
-            background: `linear-gradient(to right, ${group.theme.colors.join(', ')})` 
-          }} 
-        />
-
-        {/* Header section (Clickable to Toggle) */}
-        <div
-          className="p-5 pt-7 cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-4 select-none active:bg-black/[0.01] dark:active:bg-white/[0.02] transition-colors"
-          onClick={onToggle}
-        >
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-2.5 flex-wrap">
-              <span className="text-2xl inline-block flag-emoji" aria-hidden="true">
-                {group.flag}
-              </span>
-              <span className="text-[10px] font-bold tracking-[0.25em] text-black/50 dark:text-zinc-400 uppercase">
-                GN {group.country}
-              </span>
-              {getCategoryBadge(group.category)}
-
-              {/* Distance badge if geolocation is available */}
-              {distance !== undefined && distance !== null && (
-                <motion.span 
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wider bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border border-emerald-100 dark:border-emerald-800/40"
-                >
-                  <Navigation className="w-3 h-3 text-emerald-500 animate-pulse" />
-                  {formatDistance(distance)}
-                </motion.span>
-              )}
-            </div>
-
-            <h3 className="text-lg font-bold tracking-tight text-[#1A1A1A] dark:text-zinc-100 leading-tight">
-              {group.name}
-            </h3>
-
-            <p className="text-xs text-black/60 dark:text-zinc-400 mt-1.5 flex items-center gap-1.5 font-medium">
-              <MapPin className="w-3.5 h-3.5 text-black/40 dark:text-zinc-500 flex-shrink-0" />
-              <span>Bairro {group.neighborhood} · {group.zone}</span>
-            </p>
-          </div>
-
-          <div className="flex items-center justify-between sm:justify-end gap-3 border-t border-black/[0.04] dark:border-white/[0.06] pt-3 sm:pt-0 sm:border-0">
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-black/50 dark:text-zinc-400 sm:hidden">
-              Detalhes do grupo
-            </span>
-            <motion.button 
-              type="button" 
-              aria-label={isOpen ? "Fechar detalhes" : "Abrir detalhes"}
-              className="w-10 h-10 rounded-full flex items-center justify-center bg-black/[0.04] dark:bg-white/[0.07] hover:bg-black/[0.1] dark:hover:bg-white/[0.14] text-black/60 dark:text-zinc-300 transition-all"
-              whileTap={{ scale: 0.9 }}
-            >
-              <motion.div
-                animate={{ rotate: isOpen ? 180 : 0 }}
-                transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-              >
-                <ChevronDown className="w-4.5 h-4.5" />
-              </motion.div>
-            </motion.button>
-          </div>
+      <div className="flex">
+        {/* Canaleta com as cores reais da bandeira */}
+        <div className="flag-gutter shrink-0" aria-hidden>
+          {group.theme.colors.map((c, i) => (
+            <span key={`${c}-${i}`} style={{ background: c }} />
+          ))}
         </div>
 
-        {/* Expanded details section */}
-        <AnimatePresence initial={false}>
-          {isOpen && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <div className="px-5 pb-6 border-t border-black/[0.04] dark:border-white/[0.06] pt-5 bg-black/[0.015] dark:bg-black/25 space-y-4">
-                
-                {/* APRESENTAÇÃO HIERÁRQUICA E ORGANIZADA PARA MENINAS E MENINOS (MISTO) */}
-                {isMistoGroup && (
-                  <div className="p-4 rounded-xl bg-purple-500/[0.04] dark:bg-purple-950/20 border border-purple-500/15 dark:border-purple-500/25 space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-purple-700 dark:text-purple-300">
-                        {getMistoHeaderTitle()}
-                      </span>
-                      <span className="text-[9px] font-bold text-black/40 dark:text-zinc-400 uppercase tracking-widest">
-                        Estrutura do Grupo
-                      </span>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                      {/* Bloco Meninas */}
-                      <div className="bg-white/80 dark:bg-[#181926]/80 p-3 rounded-lg border border-pink-500/20 space-y-1">
-                        <span className="block text-[10px] font-bold uppercase tracking-wider text-pink-600 dark:text-pink-400">
-                          Meninas
-                        </span>
-                        <span className="block text-xs font-semibold text-zinc-800 dark:text-zinc-200">
-                          {getSubAudience()}
-                        </span>
-                      </div>
-
-                      {/* Bloco Meninos */}
-                      <div className="bg-white/80 dark:bg-[#181926]/80 p-3 rounded-lg border border-blue-500/20 space-y-1">
-                        <span className="block text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
-                          Meninos
-                        </span>
-                        <span className="block text-xs font-semibold text-zinc-800 dark:text-zinc-200">
-                          {getSubAudience()}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {/* Leader */}
-                  <div className="flex items-start gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-black/[0.04] dark:bg-white/[0.07] flex items-center justify-center text-black/50 dark:text-zinc-400 flex-shrink-0">
-                      <User className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <span className="block text-[9px] text-black/45 dark:text-zinc-400 font-bold uppercase tracking-widest">
-                        {getLeaderLabel(group.category)}
-                      </span>
-                      <span className="text-sm font-semibold text-[#1A1A1A] dark:text-zinc-100">
-                        {group.leader}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Time */}
-                  <div className="flex items-start gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-black/[0.04] dark:bg-white/[0.07] flex items-center justify-center text-black/50 dark:text-zinc-400 flex-shrink-0">
-                      <Clock className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <span className="block text-[9px] text-black/45 dark:text-zinc-400 font-bold uppercase tracking-widest">
-                        Dia & Horário
-                      </span>
-                      <span className="text-sm font-semibold text-[#1A1A1A] dark:text-zinc-100">
-                        {group.time}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Group type */}
-                  <div className="flex items-start gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-black/[0.04] dark:bg-white/[0.07] flex items-center justify-center text-black/50 dark:text-zinc-400 flex-shrink-0">
-                      <Users className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <span className="block text-[9px] text-black/45 dark:text-zinc-400 font-bold uppercase tracking-widest">
-                        Categoria do Grupo
-                      </span>
-                      <span className="text-sm font-semibold text-[#1A1A1A] dark:text-zinc-100 capitalize">
-                        {group.category.toLowerCase()}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* WhatsApp Contact */}
-                  <div className="flex items-start gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
-                      <MessageCircle className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <span className="block text-[9px] text-emerald-700 dark:text-emerald-400 font-bold uppercase tracking-widest">
-                        Contato / WhatsApp
-                      </span>
-                      <button
-                        type="button"
-                        onClick={handleWhatsApp}
-                        className="text-sm font-bold text-emerald-600 dark:text-emerald-400 hover:underline inline-flex items-center gap-1.5 transition-colors"
-                      >
-                        <span>{group.contact}</span>
-                        <span className="text-[9px] bg-emerald-100/80 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-200 px-1.5 py-0.5 rounded-sm uppercase tracking-wider font-semibold">
-                          Abrir Chat
-                        </span>
-                      </button>
-                    </div>
-                  </div>
+        <div className="flex-1 min-w-0">
+          {/* Cabeçalho clicável */}
+          <button
+            type="button"
+            onClick={onToggle}
+            aria-expanded={isOpen}
+            aria-controls={`gn-detalhe-${group.id}`}
+            className="w-full text-left px-5 sm:px-6 py-5 cursor-pointer transition-colors duration-300 hover:bg-paper-sunk"
+          >
+            <div className="flex items-start justify-between gap-4">
+              <div className="min-w-0 flex-1">
+                {/* Linha de identificação */}
+                <div className="flex items-center gap-3 flex-wrap">
+                  <Flag
+                    code={group.countryCode}
+                    name={group.country}
+                    colors={group.theme.colors}
+                    className="h-3.5"
+                  />
+                  <span className="figure text-[9px] font-semibold text-ink-4">{sheet}</span>
+                  <span className="w-4 hairline" />
+                  <span
+                    className="legend text-[8px]"
+                    style={{ color: categoryInk(group.category) }}
+                  >
+                    {group.category}
+                  </span>
+                  {distance !== undefined && distance !== null && (
+                    <span className="dist-chip figure text-[9px] font-semibold">
+                      <Navigation className="w-2.5 h-2.5 shrink-0" aria-hidden />
+                      <span className="sr-only">Distância de você: </span>
+                      {formatDistance(distance)}
+                    </span>
+                  )}
                 </div>
 
-                {/* Local / Região (Seguro - Apenas Bairro e Zona) */}
-                <div className="flex items-start gap-3 pt-2">
-                  <div className="w-9 h-9 rounded-xl bg-black/[0.04] dark:bg-white/[0.07] flex items-center justify-center text-black/50 dark:text-zinc-400 flex-shrink-0">
-                    <MapIcon className="w-4 h-4" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <span className="block text-[9px] text-black/45 dark:text-zinc-400 font-bold uppercase tracking-widest">
-                      Região & Bairro (Referência Aproximada)
-                    </span>
-                    <span className="text-sm text-[#1A1A1A] dark:text-zinc-200 font-medium block">
-                      Bairro {group.neighborhood} · {group.zone} — {group.city}
-                    </span>
-                  </div>
-                </div>
+                {/* Nação */}
+                <h3 className="mt-3 font-plate-tight text-[1.5rem] sm:text-[1.75rem] leading-none text-ink">
+                  {group.country}
+                </h3>
 
-                {/* Action Buttons: WhatsApp & Maps */}
-                <div className="pt-3 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                  <motion.button
-                    type="button"
-                    id={`whatsapp-btn-${group.id}`}
-                    onClick={handleWhatsApp}
-                    whileTap={{ scale: 0.96 }}
-                    className="premium-btn w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white py-3.5 px-4 rounded-xl font-bold text-[10px] tracking-widest uppercase shadow-sm hover:shadow-md cursor-pointer border border-emerald-700/20"
-                  >
-                    <MessageCircle className="w-3.5 h-3.5" />
-                    FALAR NO WHATSAPP
-                  </motion.button>
-                  <motion.button
-                    type="button"
-                    id={`open-map-btn-${group.id}`}
-                    onClick={handleOpenMap}
-                    whileTap={{ scale: 0.96 }}
-                    style={{ backgroundColor: group.theme.primary }}
-                    className="premium-btn w-full flex items-center justify-center gap-2 hover:brightness-110 text-white py-3.5 px-4 rounded-xl font-bold text-[10px] tracking-widest uppercase shadow-sm hover:shadow-md cursor-pointer"
-                  >
-                    <MapPin className="w-3.5 h-3.5" />
-                    VER REGIÃO NO MAPA
-                  </motion.button>
+                <p className="mt-2 text-[0.8125rem] text-ink-2 leading-snug">
+                  {group.name}
+                </p>
+
+                <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-1.5">
+                  <span className="figure text-[0.7rem] text-ink-3">{group.time}</span>
+                  <span className="text-[0.7rem] text-ink-3">
+                    {group.neighborhood} · {group.zone}
+                  </span>
                 </div>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+
+              {/* Controle de abertura: rotulado, para não depender de um
+                  glifo que o visitante precise adivinhar. */}
+              <span
+                className="shrink-0 mt-0.5 inline-flex items-center gap-2 pl-2.5 pr-3 py-2 border transition-colors duration-300"
+                style={{
+                  borderColor: isOpen ? ink : 'var(--rule)',
+                  color: isOpen ? ink : 'var(--ink-2)',
+                }}
+                aria-hidden
+              >
+                <span className="relative w-3.5 h-3.5 flex items-center justify-center">
+                  <span
+                    className="absolute w-3 h-px transition-colors duration-300"
+                    style={{ background: isOpen ? ink : 'var(--ink-3)' }}
+                  />
+                  <motion.span
+                    className="absolute h-3 w-px"
+                    style={{ background: isOpen ? ink : 'var(--ink-3)' }}
+                    animate={{ scaleY: isOpen ? 0 : 1, rotate: isOpen ? 90 : 0 }}
+                    transition={{ duration: 0.35, ease: chartEase }}
+                  />
+                </span>
+                <span className="legend-strong text-[9px] text-inherit whitespace-nowrap">
+                  {isOpen ? 'Fechar' : 'Ver ficha'}
+                </span>
+              </span>
+            </div>
+
+            {/* Reforço da ação enquanto o registro está fechado: diz o que
+                aparece ao abrir, para o card não parecer um item morto. */}
+            <AnimatePresence initial={false}>
+              {!isOpen && (
+                <motion.span
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.25 }}
+                  className="mt-4 flex items-center gap-2.5 text-ink-3"
+                >
+                  <span className="w-5 hairline" />
+                  <span className="text-[0.7rem] leading-none">
+                    Embaixador, telefone e mapa
+                  </span>
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </button>
+
+          {/* Registro completo */}
+          <AnimatePresence initial={false}>
+            {isOpen && (
+              <motion.div
+                id={`gn-detalhe-${group.id}`}
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.45, ease: chartEase }}
+                className="overflow-hidden"
+              >
+                <div className="px-5 sm:px-6 pb-6">
+                  <div className="hairline-dashed mb-5" />
+
+                  {/* A bandeira em tamanho legível, no desenho oficial */}
+                  <div className="flex items-center gap-3 mb-6">
+                    <Flag
+                      code={group.countryCode}
+                      name={group.country}
+                      colors={group.theme.colors}
+                      className="h-7"
+                    />
+                    <span className="legend text-[8px]">Bandeira de {group.country}</span>
+                  </div>
+
+                  <dl className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-6">
+                    <Entry label={leaderLabel(group.category)} value={group.leader} />
+                    <Entry label="Encontro" value={group.time} mono />
+                    <Entry label="Faixa" value={audience(group.name)} />
+                    <Entry label="Bairro" value={`${group.neighborhood} · ${group.zone}`} />
+                    <Entry label="Cidade" value={group.city} />
+                    <Entry label="Contato" value={group.contact} mono />
+                    <Entry
+                      label="Latitude"
+                      value={dms(group.coordinates.latitude, 'N', 'S')}
+                      mono
+                    />
+                    <Entry
+                      label="Longitude"
+                      value={dms(group.coordinates.longitude, 'L', 'O')}
+                      mono
+                    />
+                  </dl>
+
+                  {group.category === 'MISTO' && (
+                    <p className="mt-6 text-[0.75rem] text-ink-3 leading-relaxed border-l-2 pl-3"
+                       style={{ borderColor: ink }}>
+                      Grupo misto: meninas e meninos {audience(group.name).toLowerCase()} no
+                      mesmo encontro.
+                    </p>
+                  )}
+
+                  <div className="mt-7 grid grid-cols-1 sm:grid-cols-2 gap-px bg-rule">
+                    <button
+                      type="button"
+                      id={`whatsapp-btn-${group.id}`}
+                      onClick={openWhatsApp}
+                      className="press flex items-center justify-center gap-2.5 py-4 px-4 bg-ink text-paper hover:opacity-90 cursor-pointer"
+                    >
+                      <MessageCircle className="w-3.5 h-3.5" />
+                      <span className="legend-strong text-[10px] text-paper">
+                        Chamar no WhatsApp
+                      </span>
+                    </button>
+                    <button
+                      type="button"
+                      id={`open-map-btn-${group.id}`}
+                      onClick={openMap}
+                      style={{ background: ink }}
+                      className="press flex items-center justify-center gap-2.5 py-4 px-4 text-white hover:brightness-110 cursor-pointer"
+                    >
+                      <MapPin className="w-3.5 h-3.5" />
+                      <span className="legend-strong text-[10px] text-white">
+                        Ver o ponto no mapa
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
-    </motion.div>
+    </motion.article>
+  );
+}
+
+function Entry({ label, value, mono }: { label: string; value: string; mono?: boolean }) {
+  return (
+    <div>
+      <dt className="legend text-[8px] mb-1.5">{label}</dt>
+      <dd
+        className={`text-[0.8125rem] text-ink leading-snug ${
+          mono ? 'figure text-[0.75rem]' : 'font-medium'
+        }`}
+      >
+        {value}
+      </dd>
+    </div>
   );
 }
