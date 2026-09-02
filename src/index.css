@@ -278,6 +278,22 @@ button, a {
   animation: gpsPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
+/* Continuous blink / pulse animation for Em Breve */
+@keyframes blinkContinuous {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.25;
+    transform: scale(0.96);
+  }
+}
+
+.animate-blink {
+  animation: blinkContinuous 1.1s ease-in-out infinite;
+}
+
 /* Stagger animation delays for lists */
 .stagger-1 { animation-delay: 0.05s; }
 .stagger-2 { animation-delay: 0.1s; }

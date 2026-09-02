@@ -18,7 +18,8 @@ import {
   Sun,
   Moon,
   Play,
-  Share2
+  Share2,
+  Mail
 } from 'lucide-react';
 import { GN_GROUPS } from './data/groups';
 import { calculateDistance } from './utils/geo';
@@ -555,12 +556,12 @@ export default function App() {
 
                     {/* JOVEM - EM BREVE */}
                     <div
-                      className="relative py-6 px-3 border border-cyan-500/25 dark:border-cyan-500/30 bg-cyan-500/5 dark:bg-cyan-950/20 text-cyan-600 dark:text-cyan-300 rounded-2xl flex flex-col items-center justify-center gap-2 select-none opacity-80"
+                      className="relative py-6 px-3 border border-red-500/30 dark:border-red-500/40 bg-red-500/5 dark:bg-red-950/20 text-red-600 dark:text-red-400 rounded-2xl flex flex-col items-center justify-center gap-2 select-none opacity-90"
                     >
-                      <span className="absolute top-2 right-2 text-[8px] font-extrabold uppercase tracking-widest bg-cyan-600 text-white px-2 py-0.5 rounded-full">
+                      <span className="absolute top-2 right-2 text-[8px] font-extrabold uppercase tracking-widest bg-red-600 text-white px-2 py-0.5 rounded-full shadow-sm animate-blink">
                         Em breve
                       </span>
-                      <span className="w-2.5 h-2.5 rounded-full bg-cyan-500" />
+                      <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
                       <span className="text-xs font-bold tracking-[0.2em] uppercase">JOVEM</span>
                       <span className="text-[10px] text-black/50 dark:text-zinc-400 font-medium">Jovens</span>
                     </div>
@@ -1174,21 +1175,35 @@ export default function App() {
 
         </div>
 
-        <div className="max-w-5xl mx-auto mt-8 pt-6 border-t border-black/5 dark:border-white/10 text-center space-y-2">
-          <p className="text-xs text-black/60 dark:text-zinc-400 font-semibold tracking-wider uppercase">
-            2026 — . Todos os direitos reservados
+        <div className="max-w-5xl mx-auto mt-8 pt-8 border-t border-black/5 dark:border-white/10 text-center space-y-4">
+          <p className="text-[11px] text-black/50 dark:text-zinc-500 font-semibold tracking-wider uppercase">
+            2026 — Igreja às Nações · Supervisão Resgate. Todos os direitos reservados
           </p>
-          <div className="flex items-center justify-center gap-1.5 text-xs text-black/50 dark:text-zinc-500 font-medium">
-            <span>Criado por Luiz Henrique Jaques</span>
-            <a
-              href="https://instagram.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center text-pink-600 dark:text-pink-400 hover:text-pink-700 transition-colors p-0.5"
-              title="Instagram do Criador"
-            >
-              <Instagram className="w-3.5 h-3.5" />
-            </a>
+
+          {/* Seção Feito por / Criadores com maior destaque */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 pt-2">
+            <span className="text-xs uppercase tracking-widest font-extrabold text-black/40 dark:text-zinc-500">
+              Feito por:
+            </span>
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+              <a
+                href="mailto:miguel.cg.contato@gmail.com"
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/[0.04] dark:bg-white/[0.06] hover:bg-black/[0.08] dark:hover:bg-white/[0.12] border border-black/10 dark:border-white/15 text-sm sm:text-base font-bold text-zinc-900 dark:text-white transition-all hover:scale-105 active:scale-95 shadow-xs group"
+                title="Enviar e-mail para Miguel Casagrande"
+              >
+                <Mail className="w-4 h-4 text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform" />
+                <span>Miguel Casagrande</span>
+              </a>
+
+              <a
+                href="mailto:Luizjaques23@gmail.com"
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/[0.04] dark:bg-white/[0.06] hover:bg-black/[0.08] dark:hover:bg-white/[0.12] border border-black/10 dark:border-white/15 text-sm sm:text-base font-bold text-zinc-900 dark:text-white transition-all hover:scale-105 active:scale-95 shadow-xs group"
+                title="Enviar e-mail para Luiz Henrique Jaques"
+              >
+                <Mail className="w-4 h-4 text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform" />
+                <span>Luiz Henrique Jaques</span>
+              </a>
+            </div>
           </div>
         </div>
       </footer>

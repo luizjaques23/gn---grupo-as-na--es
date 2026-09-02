@@ -12,7 +12,7 @@ export interface GNGroup {
   flag: string;
   name: string;
   leader: string;
-  category: 'MENINAS' | 'MENINOS' | 'MISTO';
+  category: 'MENINAS' | 'MENINOS' | 'MISTO' | 'KIDS';
   time: string;
   city: string;
   neighborhood: string;
@@ -202,7 +202,7 @@ export const GN_GROUPS: GNGroup[] = [
     flag: "🇰🇾",
     name: "GN Ilhas Cayman — KIDS MISTO",
     leader: "Zete",
-    category: "MISTO",
+    category: "KIDS",
     time: "Quinta-feira — 19h00",
     city: "Porto Velho - RO",
     neighborhood: "Nacional",

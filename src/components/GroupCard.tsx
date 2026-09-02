@@ -57,12 +57,15 @@ export default function GroupCard({ group, distance, isOpen, onToggle, index = 0
     }
   };
 
-  // Check if this is a group containing girls and boys (MISTO)
-  const isMistoGroup = group.category === 'MISTO';
+  // Check if this is a group containing girls and boys (MISTO or KIDS)
+  const isMistoGroup = group.category === 'MISTO' || group.category === 'KIDS';
   
-  // Determine the sub-classification / target audience (e.g. Adolescentes, Jovens, etc.)
+  // Determine the sub-classification / target audience (e.g. Adolescentes, Jovens, Kids, etc.)
   const getSubAudience = () => {
     const nameLower = group.name.toLowerCase();
+    if (group.category === 'KIDS' || nameLower.includes('kids') || nameLower.includes('crianças')) {
+      return 'Crianças';
+    }
     if (nameLower.includes('pré-adolescentes') || nameLower.includes('pre-adolescentes')) {
       return 'Pré-adolescentes';
     }
