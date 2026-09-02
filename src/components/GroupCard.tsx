@@ -6,7 +6,6 @@ import {
   Clock, 
   MapPin, 
   ChevronDown, 
-  ChevronUp, 
   MapIcon,
   Navigation,
   MessageCircle
@@ -23,28 +22,28 @@ interface GroupCardProps {
 }
 
 export default function GroupCard({ group, distance, isOpen, onToggle, index = 0 }: GroupCardProps) {
-  // Category styling with Light & Dark mode support
+  // Category badge styling with Light & Dark mode support (clean, without emojis)
   const getCategoryBadge = (category: string) => {
     switch (category) {
       case 'MENINAS':
         return (
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold tracking-widest bg-pink-500/10 text-pink-600 dark:bg-pink-950/40 dark:text-pink-300 border border-pink-500/20 dark:border-pink-500/30 uppercase">
             <span className="w-1.5 h-1.5 rounded-full bg-pink-500" />
-            👧 MENINAS
+            MENINAS
           </span>
         );
       case 'MENINOS':
         return (
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold tracking-widest bg-blue-500/10 text-blue-600 dark:bg-blue-950/40 dark:text-blue-300 border border-blue-500/20 dark:border-blue-500/30 uppercase">
             <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
-            👦 MENINOS
+            MENINOS
           </span>
         );
       case 'KIDS':
         return (
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold tracking-widest bg-amber-500/10 text-amber-600 dark:bg-amber-950/40 dark:text-amber-300 border border-amber-500/20 dark:border-amber-500/30 uppercase">
             <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
-            🧒 KIDS
+            KIDS
           </span>
         );
       case 'MISTO':
@@ -58,9 +57,29 @@ export default function GroupCard({ group, distance, isOpen, onToggle, index = 0
     }
   };
 
-  // Check if this is a KIDS MISTO or MISTO group that needs the dual gender display
+  // Check if this is a group containing girls and boys (MISTO)
   const isMistoGroup = group.category === 'MISTO';
-  const isKidsMisto = group.name.toLowerCase().includes('kids misto');
+  
+  // Determine the sub-classification / target audience (e.g. Adolescentes, Jovens, etc.)
+  const getSubAudience = () => {
+    const nameLower = group.name.toLowerCase();
+    if (nameLower.includes('pré-adolescentes') || nameLower.includes('pre-adolescentes')) {
+      return 'Pré-adolescentes';
+    }
+    if (nameLower.includes('jovens') || nameLower.includes('jovem')) {
+      return 'Jovens';
+    }
+    return 'Adolescentes';
+  };
+
+  // Determine title for the mixed section (e.g., "KIDS MISTO" or "MISTO")
+  const getMistoHeaderTitle = () => {
+    const nameLower = group.name.toLowerCase();
+    if (nameLower.includes('kids')) {
+      return 'KIDS MISTO';
+    }
+    return 'MISTO';
+  };
 
   // Dynamic leader label (Embaixador/Embaixadora)
   const getLeaderLabel = (category: string) => {
@@ -102,7 +121,7 @@ export default function GroupCard({ group, distance, isOpen, onToggle, index = 0
             : 'shadow-sm dark:shadow-md hover:shadow-md dark:hover:shadow-lg'
         }`}
       >
-        {/* Absolute top country flag gradient bar — more prominent */}
+        {/* Absolute top country flag gradient bar */}
         <div 
           className="absolute top-0 left-0 w-full h-2 rounded-t-2xl" 
           style={{ 
@@ -142,27 +161,6 @@ export default function GroupCard({ group, distance, isOpen, onToggle, index = 0
               {group.name}
             </h3>
 
-            {/* MISTO gender display */}
-            {isMistoGroup && isOpen && (
-              <motion.div 
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                className="mt-2 flex items-center gap-3"
-              >
-                <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-pink-600 dark:text-pink-400 bg-pink-50 dark:bg-pink-950/30 px-2 py-0.5 rounded-full">
-                  👧 Meninas
-                </span>
-                <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/30 px-2 py-0.5 rounded-full">
-                  👦 Meninos
-                </span>
-                {isKidsMisto && (
-                  <span className="text-[9px] font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider">
-                    Kids
-                  </span>
-                )}
-              </motion.div>
-            )}
-
             <p className="text-xs text-black/60 dark:text-zinc-400 mt-1.5 flex items-center gap-1.5 font-medium">
               <MapPin className="w-3.5 h-3.5 text-black/40 dark:text-zinc-500 flex-shrink-0" />
               <span>Bairro {group.neighborhood} · {group.zone}</span>
@@ -199,6 +197,43 @@ export default function GroupCard({ group, distance, isOpen, onToggle, index = 0
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             >
               <div className="px-5 pb-6 border-t border-black/[0.04] dark:border-white/[0.06] pt-5 bg-black/[0.015] dark:bg-black/25 space-y-4">
+                
+                {/* APRESENTAÇÃO HIERÁRQUICA E ORGANIZADA PARA MENINAS E MENINOS (MISTO) */}
+                {isMistoGroup && (
+                  <div className="p-4 rounded-xl bg-purple-500/[0.04] dark:bg-purple-950/20 border border-purple-500/15 dark:border-purple-500/25 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-purple-700 dark:text-purple-300">
+                        {getMistoHeaderTitle()}
+                      </span>
+                      <span className="text-[9px] font-bold text-black/40 dark:text-zinc-400 uppercase tracking-widest">
+                        Estrutura do Grupo
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                      {/* Bloco Meninas */}
+                      <div className="bg-white/80 dark:bg-[#181926]/80 p-3 rounded-lg border border-pink-500/20 space-y-1">
+                        <span className="block text-[10px] font-bold uppercase tracking-wider text-pink-600 dark:text-pink-400">
+                          Meninas
+                        </span>
+                        <span className="block text-xs font-semibold text-zinc-800 dark:text-zinc-200">
+                          {getSubAudience()}
+                        </span>
+                      </div>
+
+                      {/* Bloco Meninos */}
+                      <div className="bg-white/80 dark:bg-[#181926]/80 p-3 rounded-lg border border-blue-500/20 space-y-1">
+                        <span className="block text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
+                          Meninos
+                        </span>
+                        <span className="block text-xs font-semibold text-zinc-800 dark:text-zinc-200">
+                          {getSubAudience()}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {/* Leader */}
                   <div className="flex items-start gap-3">
@@ -242,17 +277,6 @@ export default function GroupCard({ group, distance, isOpen, onToggle, index = 0
                       <span className="text-sm font-semibold text-[#1A1A1A] dark:text-zinc-100 capitalize">
                         {group.category.toLowerCase()}
                       </span>
-                      {/* Show MISTO details in the category section */}
-                      {isMistoGroup && (
-                        <div className="mt-1.5 flex items-center gap-2">
-                          <span className="inline-flex items-center gap-1 text-[9px] font-semibold text-pink-600 dark:text-pink-400 bg-pink-50 dark:bg-pink-950/30 px-1.5 py-0.5 rounded">
-                            👧 Meninas
-                          </span>
-                          <span className="inline-flex items-center gap-1 text-[9px] font-semibold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/30 px-1.5 py-0.5 rounded">
-                            👦 Meninos
-                          </span>
-                        </div>
-                      )}
                     </div>
                   </div>
 

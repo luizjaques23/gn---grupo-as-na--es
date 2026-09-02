@@ -506,7 +506,7 @@ export default function App() {
                       whileTap={{ scale: 0.95 }}
                       whileHover={{ y: -3 }}
                     >
-                      <span className="text-xl">👧</span>
+                      <span className="w-2.5 h-2.5 rounded-full bg-pink-500" />
                       <span className="text-xs font-bold tracking-[0.2em] uppercase">MENINAS</span>
                       <span className="text-[10px] text-black/50 dark:text-zinc-400 font-medium">Círculo Feminino</span>
                     </motion.button>
@@ -520,7 +520,7 @@ export default function App() {
                       whileTap={{ scale: 0.95 }}
                       whileHover={{ y: -3 }}
                     >
-                      <span className="text-xl">👦</span>
+                      <span className="w-2.5 h-2.5 rounded-full bg-blue-500" />
                       <span className="text-xs font-bold tracking-[0.2em] uppercase">MENINOS</span>
                       <span className="text-[10px] text-black/50 dark:text-zinc-400 font-medium">Círculo Masculino</span>
                     </motion.button>
@@ -534,7 +534,7 @@ export default function App() {
                       whileTap={{ scale: 0.95 }}
                       whileHover={{ y: -3 }}
                     >
-                      <span className="text-xl">🤝</span>
+                      <span className="w-2.5 h-2.5 rounded-full bg-purple-500" />
                       <span className="text-xs font-bold tracking-[0.2em] uppercase">MISTO</span>
                       <span className="text-[10px] text-black/50 dark:text-zinc-400 font-medium">Comunhão Geral</span>
                     </motion.button>
@@ -548,7 +548,7 @@ export default function App() {
                       whileTap={{ scale: 0.95 }}
                       whileHover={{ y: -3 }}
                     >
-                      <span className="text-xl">🧒</span>
+                      <span className="w-2.5 h-2.5 rounded-full bg-amber-500" />
                       <span className="text-xs font-bold tracking-[0.2em] uppercase">KIDS</span>
                       <span className="text-[10px] text-black/50 dark:text-zinc-400 font-medium">Crianças</span>
                     </motion.button>
@@ -560,7 +560,7 @@ export default function App() {
                       <span className="absolute top-2 right-2 text-[8px] font-extrabold uppercase tracking-widest bg-cyan-600 text-white px-2 py-0.5 rounded-full">
                         Em breve
                       </span>
-                      <span className="text-xl">🔥</span>
+                      <span className="w-2.5 h-2.5 rounded-full bg-cyan-500" />
                       <span className="text-xs font-bold tracking-[0.2em] uppercase">JOVEM</span>
                       <span className="text-[10px] text-black/50 dark:text-zinc-400 font-medium">Jovens</span>
                     </div>
