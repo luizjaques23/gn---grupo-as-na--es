@@ -508,7 +508,7 @@ export default function App() {
                     >
                       <span className="w-2.5 h-2.5 rounded-full bg-pink-500" />
                       <span className="text-xs font-bold tracking-[0.2em] uppercase">MENINAS</span>
-                      <span className="text-[10px] text-black/50 dark:text-zinc-400 font-medium">Círculo Feminino</span>
+                      <span className="text-[10px] text-black/50 dark:text-zinc-400 font-medium">Adolescentes</span>
                     </motion.button>
 
                     {/* MENINOS */}
@@ -522,7 +522,7 @@ export default function App() {
                     >
                       <span className="w-2.5 h-2.5 rounded-full bg-blue-500" />
                       <span className="text-xs font-bold tracking-[0.2em] uppercase">MENINOS</span>
-                      <span className="text-[10px] text-black/50 dark:text-zinc-400 font-medium">Círculo Masculino</span>
+                      <span className="text-[10px] text-black/50 dark:text-zinc-400 font-medium">Adolescentes</span>
                     </motion.button>
 
                     {/* MISTO */}
