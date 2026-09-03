@@ -26,11 +26,15 @@ export default function AtlasHero({ nations, groups, isLocating, onLocate }: Pro
       {/* ---------------------------------------------------- fundo: o globo */}
       <motion.div style={{ y: globeDrift }} className="absolute inset-0 -z-10 bg-[#060B10]">
         <video
-          className="hero-globe absolute inset-0 w-full h-full"
+          className="hero-globe absolute inset-0 w-full h-full pointer-events-none select-none"
           autoPlay
           loop
           muted
           playsInline
+          // @ts-expect-error atributo webkit para iOS Safari
+          webkit-playsinline="true"
+          disablePictureInPicture
+          controls={false}
           preload="auto"
           poster="/hero-globo.gif"
           aria-hidden

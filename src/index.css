@@ -571,6 +571,15 @@ html.dark {
     object-fit: cover;
     transform: scale(1.55) translateY(-7%);
     transform-origin: 50% 40%;
+    pointer-events: none;
+  }
+
+  .hero-globe::-webkit-media-controls,
+  .hero-globe::-webkit-media-controls-start-playback-button,
+  .hero-globe::-webkit-media-controls-play-button {
+    display: none !important;
+    -webkit-appearance: none;
+    opacity: 0 !important;
   }
 
   @media (min-width: 768px) {
