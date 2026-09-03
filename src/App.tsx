@@ -90,7 +90,7 @@ export default function App() {
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [catalogCategory, setCatalogCategory] = useState<'ALL' | Category>('ALL');
+  const [catalogCategory, setCatalogCategory] = useState<'ALL' | Category | 'JOVEM'>('ALL');
   const [catalogCountry, setCatalogCountry] = useState<string>('ALL');
   const [catalogDay, setCatalogDay] = useState<'ALL' | Weekday>('ALL');
   const [userCoords, setUserCoords] = useState<{ latitude: number; longitude: number } | null>(null);
@@ -170,7 +170,13 @@ export default function App() {
       );
     }
 
-    if (catalogCategory !== 'ALL') result = result.filter((g) => g.category === catalogCategory);
+    if (catalogCategory !== 'ALL') {
+      if (catalogCategory === 'JOVEM') {
+        result = result.filter((g) => g.name.toLowerCase().includes('joven'));
+      } else {
+        result = result.filter((g) => g.category === catalogCategory && !g.name.toLowerCase().includes('joven'));
+      }
+    }
     if (catalogCountry !== 'ALL') result = result.filter((g) => g.country === catalogCountry);
     if (catalogDay !== 'ALL') result = result.filter((g) => groupWeekday(g) === catalogDay);
 
@@ -730,7 +736,7 @@ export default function App() {
                       <Users className="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-ink-3 pointer-events-none" />
                       <select
                         value={catalogCategory}
-                        onChange={(e) => setCatalogCategory(e.target.value as 'ALL' | Category)}
+                        onChange={(e) => setCatalogCategory(e.target.value as 'ALL' | Category | 'JOVEM')}
                         data-filled={catalogCategory !== 'ALL'}
                         className="field"
                       >
@@ -738,6 +744,8 @@ export default function App() {
                         <option value="MENINAS">MENINAS (ADOLAS)</option>
                         <option value="MENINOS">MENINOS (ADOLAS)</option>
                         <option value="MISTO">MISTO (ADOLAS)</option>
+                        <option value="KIDS">KIDS</option>
+                        <option value="JOVEM">JOVENS</option>
                       </select>
                       <ChevronDown className="absolute right-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-ink-3 pointer-events-none" />
                     </span>
