@@ -735,11 +735,9 @@ export default function App() {
                         className="field"
                       >
                         <option value="ALL">Todas as categorias</option>
-                        {CATEGORIES.map((c) => (
-                          <option key={c.key} value={c.key}>
-                            {c.key}
-                          </option>
-                        ))}
+                        <option value="MENINAS">MENINAS (ADOLAS)</option>
+                        <option value="MENINOS">MENINOS (ADOLAS)</option>
+                        <option value="MISTO">MISTO (ADOLAS)</option>
                       </select>
                       <ChevronDown className="absolute right-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-ink-3 pointer-events-none" />
                     </span>

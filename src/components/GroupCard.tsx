@@ -32,16 +32,6 @@ function audience(name: string) {
   return 'Adolescentes';
 }
 
-/** Coordenada em graus, minutos e segundos. */
-function dms(value: number, positive: string, negative: string) {
-  const hemisphere = value >= 0 ? positive : negative;
-  const abs = Math.abs(value);
-  const deg = Math.floor(abs);
-  const minFloat = (abs - deg) * 60;
-  const min = Math.floor(minFloat);
-  const sec = Math.round((minFloat - min) * 60);
-  return `${String(deg).padStart(2, '0')}°${String(min).padStart(2, '0')}'${String(sec).padStart(2, '0')}"${hemisphere}`;
-}
 
 export default function GroupCard({
   group,
@@ -135,7 +125,7 @@ export default function GroupCard({
                 </h3>
 
                 <p className="mt-2 text-[0.8125rem] text-ink-2 leading-snug">
-                  {group.name}
+                  {group.name.includes(group.zone) ? group.name : `${group.name} — ${group.zone}`}
                 </p>
 
                 <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-1.5">
@@ -226,16 +216,7 @@ export default function GroupCard({
                     <Entry label="Bairro" value={`${group.neighborhood} · ${group.zone}`} />
                     <Entry label="Cidade" value={group.city} />
                     <Entry label="Contato" value={group.contact} mono />
-                    <Entry
-                      label="Latitude"
-                      value={dms(group.coordinates.latitude, 'N', 'S')}
-                      mono
-                    />
-                    <Entry
-                      label="Longitude"
-                      value={dms(group.coordinates.longitude, 'L', 'O')}
-                      mono
-                    />
+                    <Entry label="Região" value={group.zone} />
                   </dl>
 
                   {group.category === 'MISTO' && (
